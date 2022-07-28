@@ -21,15 +21,19 @@ class Doc:
         """
         self.docCountList = []
         # append the documents(values) to the docCountList(list), if pattern(keys) present
-        for pattern, doc in self.docPattern.items():
+        for pattern, doc in Doc.docPattern.items():
             if self._doc_glob(pattern):
                 self.docCountList.append(doc)
 
-        for i in range(len(self.docCountList) - 1):
-            self.docCountList[i] = 'the ' + self.docCountList[i]
-        self.docCountList[-1] = 'and the ' + self.docCountList[-1]
-
-        self.docItems = ', '.join(self.docCountList)
+        #docItems with only 1 document
+        if len(self.docCountList) < 2:
+            self.docItems = 'the ' + self.docCountList[0]
+        #docItems with more than 1 document
+        else:
+            for i in range(len(self.docCountList) - 1):
+                self.docCountList[i] = 'the ' + self.docCountList[i]
+            self.docCountList[-1] = 'and the ' + self.docCountList[-1]
+            self.docItems = ', '.join(self.docCountList)
 
         return self.docItems
 

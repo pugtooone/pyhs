@@ -5,7 +5,8 @@ from ToSend import ToSend
 def main():
     jobFolder = Path(askdirectory())
     toSendFolder = ToSend(jobFolder)
-    toSendFolder.get_email()
+    docItems = toSendFolder.get_doc_items()
+    print(docItems)
 
 if __name__ == '__main__':
     main()

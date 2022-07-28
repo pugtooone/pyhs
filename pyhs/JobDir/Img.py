@@ -9,7 +9,7 @@ class Img:
         Parameter: Path obj of JobDir
         """
         self.imgDir = directory / 'Images'
-        self.imgListIter = self.imgDir.glob('*') #Iterator for img
+        self.imgListIter = self.imgDir.glob('*.tif') #Iterator for img
 
     def get_img_list(self):
         self.imgList = list(self.imgListIter)
