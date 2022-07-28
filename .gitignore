@@ -1,0 +1,4 @@
+*.swp
+.DS_Store
+hosts.yml
+__pycache__
