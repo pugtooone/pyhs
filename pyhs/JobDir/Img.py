@@ -27,9 +27,9 @@ class Img:
         for img in self.imgListIter:
             imgObj = Image.open(img)
 
-            for k, v in Img.brandData.items():
-                if eval(f'imgObj.{k}') != v:
-                    print('Error: Wrong Image Spec')
+            for spec, value in Img.brandData.items():
+                if eval(f'imgObj.{spec}') != value:
+                    print(f'Error: Wrong Image Spec\nimg: {img}\nspec: {spec}\n')
                     sys.exit(2)
             
             imgObj.close()
