@@ -14,4 +14,4 @@ class ToSend(JobDir):
         return self.email
 
     def check_img_spec(self):
-        self.imgDirObj.check_img_spec('ToSend')
+        return self.imgDirObj.check_img_spec('ToSend')

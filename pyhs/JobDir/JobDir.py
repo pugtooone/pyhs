@@ -5,8 +5,8 @@ import os, sys
 
 class JobDir:
     # class attributes
-    brandBaseDir = Path('/Volumes/Studio/CLIENTS/')
-    brandBase = os.listdir(brandBaseDir)
+    #brandBaseDir = Path('/Volumes/Studio/CLIENTS/')
+    #brandBase = os.listdir(brandBaseDir)
 
     def __init__(self, directory):
         """
@@ -35,16 +35,16 @@ class JobDir:
                 return brand
 
     def get_img_list(self):
-        self.imgDirObj.get_img_list()
+        return self.imgDirObj.get_img_list()
 
     def get_img_num(self):
-        self.imgDirObj.get_img_num()
+        return self.imgDirObj.get_img_num()
 
     def get_doc_list(self):
-        self.docDirObj.get_doc_list()
+        return self.docDirObj.get_doc_list()
 
     def get_doc_items(self):
-        self.docDirObj.get_doc_items()
+        return self.docDirObj.get_doc_items()
 
     def check_img_spec(self):
-        self.imgDirObj.check_img_spec(self.get_brand())
+        return self.imgDirObj.check_img_spec(self.get_brand())
