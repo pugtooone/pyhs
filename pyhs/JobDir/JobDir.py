@@ -1,7 +1,8 @@
 from Img import Img
 from Doc import Doc
-from pathlib import Path
-import os, sys
+from ProductionPlan import ProductionPlan
+import os
+import sys
 
 class JobDir:
     # class attributes
@@ -18,6 +19,7 @@ class JobDir:
         self.jobName = directory.name
         self.imgDirObj = Img(self.jobDir)
         self.docDirObj = Doc(self.jobDir)
+        self.prodPlanObj = ProductionPlan(self.jobName)
 
     @classmethod
     def check_dir_structure(cls, directory):
@@ -33,18 +35,35 @@ class JobDir:
         for brand in JobDir.brandBase:
             if brand in self.jobName:
                 return brand
+        return None
 
+
+    #imgObj
     def get_img_list(self):
         return self.imgDirObj.get_img_list()
 
     def get_img_num(self):
         return self.imgDirObj.get_img_num()
 
+    def check_img_spec(self):
+        #return self.imgDirObj.check_img_spec(self.get_brand())
+        return self.imgDirObj.check_img_spec('Test')
+
+
+    #docObj
     def get_doc_list(self):
         return self.docDirObj.get_doc_list()
 
     def get_doc_items(self):
         return self.docDirObj.get_doc_items()
 
-    def check_img_spec(self):
-        return self.imgDirObj.check_img_spec(self.get_brand())
+
+    #prodPlanObj
+    def get_vendor(self):
+        return self.prodPlanObj.get_vendor()
+
+    def get_job_status(self):
+        return self.prodPlanObj.get_job_status()
+
+    def check_download(self):
+        return self.prodPlanObj.check_download()
