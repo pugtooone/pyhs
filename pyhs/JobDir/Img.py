@@ -22,17 +22,19 @@ class Img:
     def check_img_spec(self, brand):
         Img.brandJsonFile = open('Resources/BrandDatabase.json')
         Img.brandJson = json.load(Img.brandJsonFile)
-        Img.brandData = Img.brandJson[brand]
+        Img.brandData = Img.brandJson[brand]['Spec']
 
         for img in self.imgListIter:
             imgObj = Image.open(img)
 
             for spec, value in Img.brandData.items():
-                if eval(f'imgObj.{spec}') != value:
-                    print(f'Error: Wrong Image Spec\nimg: {img}\nspec: {spec}\n')
-                    sys.exit(2)
+                if str(eval(f'imgObj.{spec}')) != value:
+                    wrongSpec = str(eval(f'imgObj.{spec}'))
+                    print(f'Error: Wrong Image Spec\nimg: {img}\ncorrect spec: {value}\nwrong spec: {wrongSpec}')
+                    return False
             
             imgObj.close()
 
         Img.brandJsonFile.close()
         print('All Images Checked')
+        return True
