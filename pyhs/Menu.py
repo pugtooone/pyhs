@@ -16,19 +16,24 @@ class Menu:
 
     def display_menu(self):
         print('''
-        pyhs Menu
+========================================
+
+        Main Menu
 
         [1]: To Send
         [2]: QC
         [3]: Submit
         [4]: Add On Functions
         [5]: Quit
+
+========================================
                 ''')
 
     def run(self):
         while True:
             self.display_menu()
-            choice = input('Enter your option: \n')
+            choice = input('Enter your option: ')
+            print('')
             action = self.choice.get(choice)
             if action:
                 eval(f'{action}()')
@@ -40,6 +45,7 @@ class Menu:
         jobFolder = Path(askdirectory())
         toSendFolder = ToSend(jobFolder)
         toSendFolder.check_img_spec()
+        toSendFolder.check_img_name()
         toSendFolder.write_email()
 
     def AddOn(self):
@@ -49,9 +55,13 @@ class Menu:
                      }
         while True:
             print("""
-        Add Ons
+========================================
+
+        Add Ons Menu
         [1]: Extract PDF
         [2]: Back
+
+========================================
                     """)
             choice = input('Enter your option: ')
             action = self.addOnChoice.get(choice)
