@@ -1,2 +1,2 @@
 from .ProductionPlan import ProductionPlan
-from .JobDir import JobDir, ToSend
+from .JobDir import ToSend
