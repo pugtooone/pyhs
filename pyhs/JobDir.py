@@ -8,8 +8,8 @@ import pyperclip
 
 class JobDir:
     # class attributes
-    brandBaseDir = Path('/Volumes/Studio/CLIENTS/')
-    brandBase = os.listdir(brandBaseDir)
+    #brandBaseDir = Path('/Volumes/Studio/CLIENTS/')
+    #brandBase = os.listdir(brandBaseDir)
 
     def __init__(self, directory):
         """
@@ -50,6 +50,8 @@ class JobDir:
     def check_img_spec(self):
         return self.imgDirObj.check_img_spec(self.get_brand())
 
+    def check_img_name(self):
+        return self.imgDirObj.check_img_name(self.get_brand())
 
     #docObj
     def get_doc_list(self):
