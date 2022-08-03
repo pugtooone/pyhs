@@ -52,8 +52,14 @@ def main():
             "2": "img_extract"
             }
     print("""
-        [1]: Extract Text
-        [2]: Extract Image
+========================================
+    
+    PDF Extract Menu
+
+    [1]: Extract Text
+    [2]: Extract Image
+
+========================================
             """)
     answer = input('Enter your option: ')
     action = choice.get(answer)
