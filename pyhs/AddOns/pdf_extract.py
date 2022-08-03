@@ -47,12 +47,20 @@ def text_extract():
     print('Text copied')
 
 def main():
-    print('Extract [Text] or [Images] from PDF?')
-    answer = input()
-    if answer == 'Images':
-        img_extract()
-    elif answer == 'Text':
-        text_extract()
+    choice = {
+            "1": "text_extract",
+            "2": "img_extract"
+            }
+    print("""
+        [1]: Extract Text
+        [2]: Extract Image
+            """)
+    answer = input('Enter your option: ')
+    action = choice.get(answer)
+    if action:
+        eval(f'{action}()')
+    else:
+        print('Error: Invalid Option')
 
 if __name__ == "__main__":
     main()
