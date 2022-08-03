@@ -49,9 +49,9 @@ class Menu:
                      }
         while True:
             print("""
-            Add Ons
-            [1]: Extract PDF
-            [2]: Back
+        Add Ons
+        [1]: Extract PDF
+        [2]: Back
                     """)
             choice = input('Enter your option: ')
             action = self.addOnChoice.get(choice)
