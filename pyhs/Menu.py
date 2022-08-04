@@ -1,4 +1,4 @@
-from JobDir import ToSend
+from JobDir import ToSend, QC
 from pathlib import Path
 from tkinter.filedialog import askdirectory
 from AddOns import pdf_extract
@@ -47,6 +47,12 @@ class Menu:
         toSendFolder.check_img_spec()
         toSendFolder.check_img_name()
         toSendFolder.write_email()
+
+    def QC(self):
+        jobFolder = Path(askdirectory())
+        qcFolder = QC(jobFolder)
+        qcFolder.check_img_spec()
+        qcFolder.check_img_name()
 
     def AddOn(self):
         self.addOnChoice={
