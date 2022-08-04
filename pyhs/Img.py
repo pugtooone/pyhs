@@ -12,14 +12,13 @@ class Img:
         self.imgDir = directory / 'Images'
         self.imgListIter = self.imgDir.glob('**/*.tif') #Iterator for img
 
-        self.imgNameList = []
-        for i in self.imgListIter:
-           img = i.name
-           self.imgNameList.append(img)
-
         self.imgPathList = []
         for i in self.imgListIter:
-           img = i
+           self.imgPathList.append(i)
+
+        self.imgNameList = []
+        for i in self.imgPathList:
+           img = i.name
            self.imgNameList.append(img)
 
     def get_img_list(self):
@@ -31,7 +30,7 @@ class Img:
 
     @classmethod
     def _access_json(cls, brand):
-        with open('Resources/BrandDatabase.json') as brandJsonFile:
+        with open('/Users/zeric.chan/.zeric/.zgit/pyhs/pyhs/Resources/BrandDatabase.json') as brandJsonFile:
             Img.brandJson = json.load(brandJsonFile)
             return Img.brandJson[brand]
 
@@ -40,25 +39,25 @@ class Img:
         self.wrongSpecList = [] #change to dictionary with key as img, value as specs
 
         for img in self.imgPathList:
-            with Image.open(self.imgDir / img) as imgObj:
+            with Image.open(img) as imgObj:
                 for spec, value in Img.brandImgSpec.items():
                     if str(eval(f'imgObj.{spec}')) != value:
                         self.wrongSpecList.append(img)
-                        # wrongSpec = str(eval(f'imgObj.{spec}'))
-                        # print(f'Error: Wrong Image Spec\nimg: {img}\ncorrect spec: {value}\nwrong spec: {wrongSpec}')
+                        wrongSpec = str(eval(f'imgObj.{spec}'))
+                        print(f'Error: Wrong Image Spec\n\nimg: {img.name}\ncorrect spec: {value}\nwrong spec: {wrongSpec}\n')
 
         print('All Image Spec Checked')
         if len(self.wrongSpecList) != 0:
-            print(self.wrongSpecList)
-            sys.exit(1)
+            return self.wrongSpecList
 
     def check_img_name(self, brand):
         Img.brandCorName = Img._access_json(brand)['Name']
         corName = re.compile(r'{}'.format(Img.brandCorName))
+        print(corName)
         self.wrongNameList = []
 
         for img in self.imgNameList:
-                if not corName.search(img):
+                if not corName.fullmatch(img):
                     print(f'Error: Wrong Image Name\nimg: {img}')
                     self.wrongNameList.append(img)
 
