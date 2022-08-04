@@ -31,7 +31,7 @@
 				"getpixel((0, 0))": "(236, 237, 238)"
 			}
 		},
-		"Name": "(KPK\\w+)_\\d\\.tif"
+		"Name": "(KPK[A-Z0-9]+)_\\d\\.tif"
 	},
 
 	"OnTheList":{
@@ -42,6 +42,17 @@
 			"info[\"dpi\"]": "(300.0, 300.0)",
 			"getpixel((0, 0))": "(255, 255, 255)"
 		},
-		"Name": "(.+)_(1|2).tif"
+		"Name": "([a-zA-Z1-9]+)_(1|2)(|_COMP[0-9]+|_INSERT)\\.tif"
+	},
+
+	"Arena":{
+		"Spec":{
+			"format": "TIFF",
+			"mode": "RGB",
+			"size": "(2000, 2000)",
+			"info[\"dpi\"]": "(300.0, 300.0)",
+			"getpixel((0, 0))": "(255, 255, 255)"
+		},
+		"Name": "([A-Z0-9]+)(|-[a-f])(|_COMP[0-9]+|_INSERT)\\.tif"
 	}
 }
