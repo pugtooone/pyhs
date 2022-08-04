@@ -2,7 +2,7 @@ import gspread
 
 class ProductionPlan:
 
-    gc = gspread.service_account(filename='Resources/Credentials/service_account.json')
+    gc = gspread.service_account(filename='/Users/zeric.chan/.zeric/.zgit/pyhs/pyhs/Resources/Credentials/service_account.json')
     ppbook = gc.open('Copy of 2022 HK Production Planning')
     ppsheet = ppbook.worksheet('2022')
 
