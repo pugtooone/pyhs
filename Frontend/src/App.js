@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
+//Components
 import Sidebar from "./Components/Sidebar.jsx"
+//Stylesheet
 import "./App.css";
 
 import { eel } from "./eel.js";
@@ -11,10 +13,16 @@ class App extends Component {
     eel.set_host("ws://localhost:8888");
     eel.hello();
   }
-
+  
+  
   render() {
+    
     return (
-      <Sidebar></Sidebar>
+      <>
+      <Sidebar />
+      <div className="MainPage">Hello <br/> again</div>
+      </>
+      
       
     );
   }

@@ -2,5 +2,5 @@ export const eel = window["eel"];
 
 eel.expose(hello);
 function hello(x) {
-  alert(x);
+  console.log(x)
 }
