@@ -1,5 +1,5 @@
 from PIL import Image
-import sys
+from importlib import resources
 import re
 import json
 
@@ -30,7 +30,7 @@ class Img:
 
     @classmethod
     def _access_json(cls, brand):
-        with open('/Users/zeric.chan/.zeric/.zgit/pyhs/pyhs/Resources/BrandDatabase.json') as brandJsonFile:
+        with resources.open_text('Resources', 'BrandDatabase.json') as brandJsonFile:
             Img.brandJson = json.load(brandJsonFile)
             return Img.brandJson[brand]
 
@@ -43,25 +43,38 @@ class Img:
                 for spec, value in Img.brandImgSpec.items():
                     if str(eval(f'imgObj.{spec}')) != value:
                         self.wrongSpecList.append(img)
-                        wrongSpec = str(eval(f'imgObj.{spec}'))
-                        print(f'Error: Wrong Image Spec\n\nimg: {img.name}\ncorrect spec: {value}\nwrong spec: {wrongSpec}\n')
 
-        print('All Image Spec Checked')
-        if len(self.wrongSpecList) != 0:
+        if len(self.wrongSpecList) > 0:
             return self.wrongSpecList
+        return None
 
     def check_img_name(self, brand):
         Img.brandCorName = Img._access_json(brand)['Name']
         corName = re.compile(r'{}'.format(Img.brandCorName))
-        print(corName)
         self.wrongNameList = []
 
         for img in self.imgNameList:
-                if not corName.fullmatch(img):
-                    print(f'Error: Wrong Image Name\nimg: {img}')
-                    self.wrongNameList.append(img)
+            if not corName.fullmatch(img):
+                self.wrongNameList.append(img)
 
-        print('All Image Name Checked')
-        if len(self.wrongNameList) != 0:
-            print(self.wrongNameList)
-            sys.exit(1)
+        return self.wrongNameList
+
+    def get_product_list(self, brand):
+        Img.brandCorName = Img._access_json(brand)['Name']
+        corName = re.compile(r'{}'.format(Img.brandCorName))
+        self.productShotList = {}
+
+        for img in self.imgNameList:
+            product = corName.fullmatch(img).group(1)
+            if not product in self.productShotList:
+                self.productShotList.update({product:{'shot': 1, 'comp': 0}})
+            else:
+                self.productShotList[product]['shot'] += 1
+            if 'COMP' in img or 'INSERT' in img:
+                self.productShotList[product]['comp'] += 1
+
+        #actual shot count
+        for product in self.productShotList.keys():
+            self.productShotList[product]['shot'] -= self.productShotList[product]['comp']
+
+        return self.productShotList
