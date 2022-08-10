@@ -1,11 +1,13 @@
 import React,{ Component, useState } from 'react';
 import 'boxicons'
 import "./Sidebar.css";
+import Mainfunction from './Sidebar.Mainfunction/Mainfunction.jsx';
 
 
 
 function Sidebar() {
-  const [clickcount, setClickCount] = useState(0);
+  
+  const [alert, setAlertState] = useState(false);
 
   return (
     <div className='Mainbar'>
@@ -14,9 +16,7 @@ function Sidebar() {
           <box-icon color="white" name='home-alt-2'></box-icon>
         </div>
         <div className='Mainfunction'>
-          <div className='To Sent'>
-            <a href='#'><p>Send</p></a>
-          </div>
+          <Mainfunction type="Send"></Mainfunction>
           <div className='QC'>
             <a href='#'><p>QC</p></a>
           </div>

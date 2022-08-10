@@ -3,6 +3,10 @@ a,a::after{
     text-decoration: none;
 }
 
+p{
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size:12px;
+}
 
 .Mainbar{
     padding:5px;
@@ -20,11 +24,7 @@ a,a::after{
     bottom:3%;
 }
 
-.Home i {
-    position:relative;
-    bottom:3%;
-    
-}
+
 
 .Exit{
     position:relative;
@@ -51,18 +51,13 @@ a,a::after{
     display:flex;
     flex-direction:column;
     justify-content: space-around;
-    
-    
 }
 
-.items div p{
+.items .Mainfunction p{
     transition: color ,font-size 0.3s;
 }
 
-.items div p:hover{
+.items .Mainfunction p:hover{
     color:#5f5f5f;
-    font-size:23px;
+    font-size:calc(12px*1.4);
 }
-
-
-
