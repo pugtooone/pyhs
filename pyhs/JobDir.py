@@ -1,15 +1,17 @@
 from Img import Img
 from Doc import Doc
 from ProductionPlan import ProductionPlan
+from ShotList import ShotList
+from pathlib import Path
 import os
 import sys
 import pyperclip
 
 class JobDir:
     # class attributes
-    # brandBaseDir = Path('/Volumes/Studio/CLIENTS/')
-    # brandBase = os.listdir(brandBaseDir)
-    brandBase = ['OnTheList', 'Arena', 'Kipling']
+    brandBaseDir = Path('/Volumes/Studio/CLIENTS/')
+    brandBase = os.listdir(brandBaseDir)
+    # brandBase = ['OnTheList', 'Arena', 'Kipling']
 
     def __init__(self, directory):
         """
@@ -21,6 +23,7 @@ class JobDir:
         self.imgDirObj = Img(self.jobDir)
         self.docDirObj = Doc(self.jobDir)
         self.prodPlanObj = ProductionPlan(self.jobName)
+        self.shotListObj = ShotList(self.get_brand())
 
     #menu display for CLI (not for gui)
     def display(self):
@@ -81,10 +84,23 @@ No. of comps: %s\n''' % (key, value['shot'], value['comp']))
         return self.prodPlanObj.update_job_status(stage)
 
 
+    #shotListObj
+    def fill_qc_tab(self):
+        self.shotListObj.fill_qc_tab()
+
 class ToSend(JobDir):
     def __init__(self, directory):
         super().__init__(directory)
         self._check_dir_structure(directory)
+        
+    def run(self):
+        self.check_img_spec()
+        self.check_img_name()
+        # self.fill_qc_tab()
+        self.write_summary()
+        self.write_email()
+        self.update_job_status('Retouching')
+        self.display()
 
     def _check_dir_structure(self, directory):
         jobDirls = os.listdir(directory)
@@ -108,6 +124,12 @@ class ToSend(JobDir):
 class QC(JobDir):
     def __init__(self, directory):
         super().__init__(directory)
+
+    def run(self):
+        self.check_download()
+        self.check_img_spec()
+        self.check_img_name()
+        self.display()
 
     def check_download(self):
         return self.prodPlanObj.check_download()
