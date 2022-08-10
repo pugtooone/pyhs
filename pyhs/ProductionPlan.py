@@ -1,8 +1,13 @@
+from importlib import resources
+import json
 import gspread
 
 class ProductionPlan:
 
-    gc = gspread.service_account(filename='/Users/zeric.chan/.zeric/.zgit/pyhs/pyhs/Resources/Credentials/service_account.json')
+    with resources.open_text('Resources', 'service_account.json') as credJSON:
+        #convert to dict type as gspread.auth.service_account accepts only filename path or dict
+        credDict = json.load(credJSON)
+    gc = gspread.service_account_from_dict(credDict)
     ppbook = gc.open('Copy of 2022 HK Production Planning')
     ppsheet = ppbook.worksheet('2022')
 
@@ -24,5 +29,9 @@ class ProductionPlan:
             return True
         return False
 
-    def update_job_status(self):
+    def check_qc_duty(self):
         pass
+
+    def update_job_status(self, stage):
+        self.jobStatusCell = self._find('Job Status')
+        ProductionPlan.ppsheet.update(self.jobStatusCell.address, stage)
