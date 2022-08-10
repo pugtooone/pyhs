@@ -3,4 +3,17 @@
     height: 8px;
     background: red;
     border-radius: 50%;
+    position:relative;
+    left:38px;
+    bottom:23px;
   }
+
+.selector{
+    transition: transform 0.3s;
+}
+
+.selector:hover{
+    transform: scale(1.2);
+}
+
+

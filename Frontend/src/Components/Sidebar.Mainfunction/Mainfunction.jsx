@@ -4,7 +4,7 @@ import './Mainfunction.css';
 function Mainfunction(props){
 
     return(
-    <div>
+    <div className='selector'>
         <a><p>{String(props.type)}</p><div className='circle'></div></a>
     </div>
     );

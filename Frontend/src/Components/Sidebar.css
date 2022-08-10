@@ -53,11 +53,4 @@ p{
     justify-content: space-around;
 }
 
-.items .Mainfunction p{
-    transition: color ,font-size 0.3s;
-}
 
-.items .Mainfunction p:hover{
-    color:#5f5f5f;
-    font-size:calc(12px*1.4);
-}
