@@ -57,7 +57,9 @@ class Img:
             if not corName.fullmatch(img):
                 self.wrongNameList.append(img)
 
-        return self.wrongNameList
+        if len(self.wrongNameList) > 0:
+            return self.wrongNameList
+        return None
 
     def get_product_list(self, brand):
         Img.brandCorName = Img._access_json(brand)['Name']
@@ -65,6 +67,11 @@ class Img:
         self.productShotList = {}
 
         for img in self.imgNameList:
+
+            #ignore img with wrong naming
+            if img in self.check_img_name(brand):
+                continue
+
             product = corName.fullmatch(img).group(1)
             if not product in self.productShotList:
                 self.productShotList.update({product:{'shot': 1, 'comp': 0}})

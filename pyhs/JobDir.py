@@ -1,15 +1,15 @@
 from Img import Img
 from Doc import Doc
 from ProductionPlan import ProductionPlan
-from pathlib import Path
 import os
 import sys
 import pyperclip
 
 class JobDir:
     # class attributes
-    brandBaseDir = Path('/Volumes/Studio/CLIENTS/')
-    brandBase = os.listdir(brandBaseDir)
+    # brandBaseDir = Path('/Volumes/Studio/CLIENTS/')
+    # brandBase = os.listdir(brandBaseDir)
+    brandBase = ['OnTheList', 'Arena', 'Kipling']
 
     def __init__(self, directory):
         """
@@ -21,6 +21,16 @@ class JobDir:
         self.imgDirObj = Img(self.jobDir)
         self.docDirObj = Doc(self.jobDir)
         self.prodPlanObj = ProductionPlan(self.jobName)
+
+    #menu display for CLI (not for gui)
+    def display(self):
+        print(f"""====================================================================================================
+    Job Directory Information
+----------------------------------------------------------------------------------------------------
+    Job: {self.jobName}
+    Number of Images: {self.get_img_num()}
+====================================================================================================
+                """)
 
     def get_brand(self):
         for brand in JobDir.brandBase:
@@ -41,6 +51,16 @@ class JobDir:
 
     def check_img_name(self):
         return self.imgDirObj.check_img_name(self.get_brand())
+    
+    def write_summary(self):
+        self.productList = self.imgDirObj.get_product_list(self.get_brand())
+        with open(self.jobDir / str(self.jobName + ' Summary'), 'a') as prodFile:
+            prodFile.write('%s Summary\n' % (self.jobName))
+            for key, value in self.productList.items():
+                prodFile.write('''\n%s:
+No. of shots: %s
+No. of comps: %s\n''' % (key, value['shot'], value['comp']))
+
 
     #docObj
     def get_doc_list(self):
@@ -57,8 +77,8 @@ class JobDir:
     def get_job_status(self):
         return self.prodPlanObj.get_job_status()
 
-    def check_download(self):
-        return self.prodPlanObj.check_download()
+    def update_job_status(self, stage):
+        return self.prodPlanObj.update_job_status(stage)
 
 
 class ToSend(JobDir):
@@ -88,6 +108,9 @@ class ToSend(JobDir):
 class QC(JobDir):
     def __init__(self, directory):
         super().__init__(directory)
+
+    def check_download(self):
+        return self.prodPlanObj.check_download()
 
     def download_batch(self):
         pass
