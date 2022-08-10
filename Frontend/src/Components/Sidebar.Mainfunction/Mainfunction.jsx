@@ -5,7 +5,10 @@ function Mainfunction(props){
 
     return(
     <div className='selector'>
-        <a><p>{String(props.type)}</p><div className='circle'></div></a>
+        <a href={String(props.link)}>
+            <p>{String(props.type)}</p>
+            <div className='circle'></div>
+        </a>
     </div>
     );
 }
