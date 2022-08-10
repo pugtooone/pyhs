@@ -16,7 +16,7 @@ class Menu:
 
     def display_menu(self):
         print('''
-========================================
+====================================================================================================
 
         Main Menu
 
@@ -26,7 +26,7 @@ class Menu:
         [4]: Add On Functions
         [5]: Quit
 
-========================================
+====================================================================================================
                 ''')
 
     def run(self):
@@ -44,31 +44,32 @@ class Menu:
     def ToSend(self):
         jobFolder = Path(askdirectory())
         toSendFolder = ToSend(jobFolder)
-        toSendFolder.check_img_spec()
-        toSendFolder.check_img_name()
-        toSendFolder.write_email()
+        toSendFolder.run()
 
     def QC(self):
         jobFolder = Path(askdirectory())
         qcFolder = QC(jobFolder)
-        qcFolder.check_img_spec()
-        qcFolder.check_img_name()
+        qcFolder.run()
 
     def AddOn(self):
         self.addOnChoice={
                      '1': 'pdf_extract.main',
                      '2': 'back'
                      }
-        while True:
+
+        def display_addon_menu():
             print("""
-========================================
+====================================================================================================
 
         Add Ons Menu
         [1]: Extract PDF
         [2]: Back
 
-========================================
-                    """)
+====================================================================================================
+                        """)
+
+        while True:
+            display_addon_menu()
             choice = input('Enter your option: ')
             action = self.addOnChoice.get(choice)
             if choice == '2':
