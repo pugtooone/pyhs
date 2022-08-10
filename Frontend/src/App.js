@@ -20,7 +20,7 @@ class App extends Component {
     return (
       <>
       <Sidebar />
-      <div className="MainPage">Hello <br/> again</div>
+      <div className="MainPage"></div>
       </>
       
       
