@@ -9,11 +9,22 @@
   }
 
 .selector{
-    transition: transform 0.3s;
+    transition: transform  0.3s;
 }
 
 .selector:hover{
     transform: scale(1.2);
+    color: #9F9F9F;
 }
+
+.selector p{
+    transition: color 0.3s;
+}
+
+.selector p:hover{
+    color : #5f5f5f;
+}
+
+
 
 

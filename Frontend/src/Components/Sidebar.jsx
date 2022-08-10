@@ -17,12 +17,8 @@ function Sidebar() {
         </div>
         <div className='Mainfunction'>
           <Mainfunction type="Send"></Mainfunction>
-          <div className='QC'>
-            <a href='#'><p>QC</p></a>
-          </div>
-          <div className='Submit'>
-            <a href='#'><p>Submit</p></a>
-          </div>
+          <Mainfunction type="QC"></Mainfunction>
+          <Mainfunction type="Submit"></Mainfunction>
         </div>
         <div className='Exit'>
           <box-icon color='white' animation='tada-hover' name='exit'></box-icon>
