@@ -24,13 +24,21 @@ class ProductionPlan:
     def get_job_status(self):
         return self._find('Job Status').value
 
+    @classmethod
+    def get_qc_duty(cls, qc_id):
+        imgDeadlineCol = ProductionPlan.ppsheet.find('Image Delivery Deadline')
+        ProductionPlan.ppsheet.sort((imgDeadlineCol.col, 'asc'))
+        cls.qcDutyRow = ProductionPlan.ppsheet.findall(qc_id.title())
+        cls.qcDutyList = []
+        for row in cls.qcDutyRow:
+            qcDutyJob = ProductionPlan.ppsheet.cell(row.row, 3).value
+            cls.qcDutyList.append(qcDutyJob)
+        return cls.qcDutyList
+
     def check_download(self):
         if self._find('Job Downloaded').value == 'TRUE':
             return True
         return False
-
-    def check_qc_duty(self):
-        pass
 
     def update_job_status(self, stage):
         self.jobStatusCell = self._find('Job Status')
