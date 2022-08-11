@@ -49,7 +49,10 @@ class JobDir:
         return self.imgDirObj.get_img_list()
 
     def get_img_num(self):
-        return self.imgDirObj.get_img_num()
+        return self.imgDirObj.get_total_img_num()
+
+    def get_cat_img_num(self):
+        return self.imgDirObj.get_cat_img_num()
 
     def check_img_spec(self):
         return self.imgDirObj.check_img_spec(self.get_brand())
@@ -141,9 +144,15 @@ class QC(JobDir):
     def check_download(self):
         return self.prodPlanObj.check_download()
 
-    def get_qc_duty(self):
+    @staticmethod
+    def get_qc_duty():
+        """
+        static method to get the qc duty (since no job dir yet)
+        """
         qc_id = input('Enter your name: ')
-        self.prodPlanObj.get_qc_duty(qc_id)
+        qcDutyList = ProductionPlan.get_qc_duty(qc_id)
+        return qcDutyList
 
-    def download_batch(self):
+    @staticmethod
+    def download_batch():
         pass
