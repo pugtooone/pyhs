@@ -8,10 +8,11 @@ import sys
 import pyperclip
 
 class JobDir:
-    # class attributes
+    #class attributes
+    #server client folders as brand list
     brandBaseDir = Path('/Volumes/Studio/CLIENTS/')
     brandBase = os.listdir(brandBaseDir)
-    # brandBase = ['OnTheList', 'Arena', 'Kipling']
+    brandBase.append('OnTheList')
 
     def __init__(self, directory):
         """
@@ -31,7 +32,8 @@ class JobDir:
     Job Directory Information
 ----------------------------------------------------------------------------------------------------
     Job: {self.jobName}
-    Number of Images: {self.get_img_num()}
+    No. of Products: {len(self.imgDirObj.get_product_list(self.get_brand()).keys())}
+    No. of Images: {self.get_img_num()}
 ====================================================================================================
                 """)
 
@@ -56,9 +58,12 @@ class JobDir:
         return self.imgDirObj.check_img_name(self.get_brand())
     
     def write_summary(self):
+        """
+        create a txt file for the summary of the job folder
+        """
         self.productList = self.imgDirObj.get_product_list(self.get_brand())
         with open(self.jobDir / str(self.jobName + ' Summary'), 'a') as prodFile:
-            prodFile.write('%s Summary\n' % (self.jobName))
+            prodFile.write('%s Summary\n\nNo. of products: %s' % (self.jobName, len(self.productList.keys())))
             for key, value in self.productList.items():
                 prodFile.write('''\n%s:
 No. of shots: %s
@@ -86,7 +91,8 @@ No. of comps: %s\n''' % (key, value['shot'], value['comp']))
 
     #shotListObj
     def fill_qc_tab(self):
-        self.shotListObj.fill_qc_tab()
+        self.shotListObj.fill_qc_tab(str(self.get_img_num() + 1), self.get_img_list())
+
 
 class ToSend(JobDir):
     def __init__(self, directory):
@@ -96,11 +102,11 @@ class ToSend(JobDir):
     def run(self):
         self.check_img_spec()
         self.check_img_name()
-        # self.fill_qc_tab()
+        self.display()
+        self.fill_qc_tab()
         self.write_summary()
         self.write_email()
         self.update_job_status('Retouching')
-        self.display()
 
     def _check_dir_structure(self, directory):
         jobDirls = os.listdir(directory)
@@ -126,13 +132,18 @@ class QC(JobDir):
         super().__init__(directory)
 
     def run(self):
-        self.check_download()
-        self.check_img_spec()
-        self.check_img_name()
+        # self.check_download()
+        # self.check_img_spec()
+        # self.check_img_name()
+        # self.write_summary()
         self.display()
 
     def check_download(self):
         return self.prodPlanObj.check_download()
+
+    def get_qc_duty(self):
+        qc_id = input('Enter your name: ')
+        self.prodPlanObj.get_qc_duty(qc_id)
 
     def download_batch(self):
         pass
