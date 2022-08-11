@@ -69,7 +69,7 @@ class Img:
         for img in self.imgNameList:
 
             #ignore img with wrong naming
-            if img in self.check_img_name(brand):
+            if self.check_img_name(brand) != None and img in self.check_img_name(brand):
                 continue
 
             product = corName.fullmatch(img).group(1)
