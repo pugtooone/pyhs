@@ -4,14 +4,33 @@ import gspread
 
 class ProductionPlan:
 
-    with resources.open_text('Resources', 'service_account.json') as credJSON:
-        #convert to dict type as gspread.auth.service_account accepts only filename path or dict
-        credDict = json.load(credJSON)
-    gc = gspread.service_account_from_dict(credDict)
-    ppbook = gc.open('Copy of 2022 HK Production Planning')
-    ppsheet = ppbook.worksheet('2022')
+    @staticmethod
+    def open_prod_plan():
+        with resources.open_text('Resources', 'service_account.json') as credJSON:
+            #convert to dict type as gspread.auth.service_account accepts only filename path or dict
+            credDict = json.load(credJSON)
+        gc = gspread.service_account_from_dict(credDict)
+        ppbook = gc.open('Copy of 2022 HK Production Planning')
+        ppsheet = ppbook.worksheet('2022')
+        return ppsheet
+
+    @staticmethod
+    def get_qc_duty(qc_id):
+        """
+        static method that does not need instantiation, for checking qc duty
+        """
+        ppsheet = ProductionPlan.open_prod_plan()
+        imgDeadlineCol = ppsheet.find('Image Delivery Deadline')
+        ppsheet.sort((imgDeadlineCol.col, 'asc'))
+        qcDutyRow = ppsheet.findall(qc_id.title())
+        qcDutyList = []
+        for row in qcDutyRow:
+            qcDutyJob = ppsheet.cell(row.row, 3).value
+            qcDutyList.append(qcDutyJob)
+        return qcDutyList
 
     def __init__(self, job_name):
+        ProductionPlan.ppsheet = ProductionPlan.open_prod_plan()
         self.jobCell = ProductionPlan.ppsheet.find(job_name)
 
     def _find(self, keyword):
@@ -24,21 +43,13 @@ class ProductionPlan:
     def get_job_status(self):
         return self._find('Job Status').value
 
-    @classmethod
-    def get_qc_duty(cls, qc_id):
-        imgDeadlineCol = ProductionPlan.ppsheet.find('Image Delivery Deadline')
-        ProductionPlan.ppsheet.sort((imgDeadlineCol.col, 'asc'))
-        cls.qcDutyRow = ProductionPlan.ppsheet.findall(qc_id.title())
-        cls.qcDutyList = []
-        for row in cls.qcDutyRow:
-            qcDutyJob = ProductionPlan.ppsheet.cell(row.row, 3).value
-            cls.qcDutyList.append(qcDutyJob)
-        return cls.qcDutyList
-
     def check_download(self):
         if self._find('Job Downloaded').value == 'TRUE':
             return True
         return False
+
+    def fill_prod_plan(self):
+        pass
 
     def update_job_status(self, stage):
         self.jobStatusCell = self._find('Job Status')
