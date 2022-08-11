@@ -1,9 +1,13 @@
 from PIL import Image
 from importlib import resources
+from pathlib import Path
 import re
 import json
 
 class Img:
+
+    imgCat = ('Model', 'Flaylay', 'Mannequin', 'Still', 'Jewel')
+
     def __init__(self, directory):
         """
         initialize ImgList obj
@@ -24,15 +28,26 @@ class Img:
     def get_img_list(self):
         return self.imgNameList
 
-    def get_img_num(self):
+    def get_total_img_num(self):
         self.imgNum = len(self.get_img_list())
         return self.imgNum
 
-    @classmethod
-    def _access_json(cls, brand):
+    def get_cat_img_num(self):
+        imgNumDict = {}
+        for cat in Img.imgCat:
+            imgCatDir = self.imgDir / cat
+            catImgList = []
+            for i in imgCatDir.glob('*.tif'):
+                img = i.name
+                catImgList.append(img)
+            imgNumDict.update({cat: len(catImgList)})
+        return imgNumDict
+
+    @staticmethod
+    def _access_json(brand):
         with resources.open_text('Resources', 'BrandDatabase.json') as brandJsonFile:
-            Img.brandJson = json.load(brandJsonFile)
-            return Img.brandJson[brand]
+            brandJson = json.load(brandJsonFile)
+            return brandJson[brand]
 
     def check_img_spec(self, brand):
         Img.brandImgSpec = Img._access_json(brand)['Spec']
