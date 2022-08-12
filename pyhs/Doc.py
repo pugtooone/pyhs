@@ -26,8 +26,10 @@ class Doc:
                 self.docCountList.append(doc)
 
         #docItems with only 1 document
-        if len(self.docCountList) < 2:
+        if len(self.docCountList) == 1:
             self.docItems = 'the ' + self.docCountList[0]
+        elif len(self.docCountList) == 0: 
+            return None
         #docItems with more than 1 document
         else:
             for i in range(len(self.docCountList) - 1):

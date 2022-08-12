@@ -47,26 +47,37 @@ def text_extract():
     print('Text copied')
 
 def main():
+
     choice = {
             "1": "text_extract",
-            "2": "img_extract"
+            "2": "img_extract",
+            "3": "back"
             }
-    print("""
-========================================
+
+    def _display_pdf_menu():
+        print("""
+ﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈ
     
-    PDF Extract Menu
+         PDF Extract Menu
 
-    [1]: Extract Text
-    [2]: Extract Image
+        [1]:  Extract Text
+        [2]:  Extract Image
+        [3]:  Back
 
-========================================
-            """)
-    answer = input('Enter your option: ')
-    action = choice.get(answer)
-    if action:
-        eval(f'{action}()')
-    else:
-        print('Error: Invalid Option')
+﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐
+                """)
+
+    #mainloop
+    while True:
+        _display_pdf_menu()
+        answer = input('Enter your option: ')
+        action = choice.get(answer)
+        if action == 'back':
+            break
+        elif action:
+            eval(f'{action}()')
+        else:
+            print('Error: Invalid Option')
 
 if __name__ == "__main__":
     main()

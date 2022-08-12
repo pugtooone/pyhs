@@ -16,17 +16,17 @@ class Menu:
 
     def display_menu(self):
         print('''
-========================================
+ﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈ
 
-        Main Menu
+        龎Main Menu
 
-        [1]: To Send
-        [2]: QC
-        [3]: Submit
-        [4]: Add On Functions
-        [5]: Quit
+        [1]:  To Send
+        [2]:  QC
+        [3]: 悔Submit
+        [4]:  Add On Functions
+        [5]:  Quit
 
-========================================
+﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐
                 ''')
 
     def run(self):
@@ -44,34 +44,36 @@ class Menu:
     def ToSend(self):
         jobFolder = Path(askdirectory())
         toSendFolder = ToSend(jobFolder)
-        toSendFolder.check_img_spec()
-        toSendFolder.check_img_name()
-        toSendFolder.write_email()
+        toSendFolder.run()
 
     def QC(self):
         jobFolder = Path(askdirectory())
         qcFolder = QC(jobFolder)
-        qcFolder.check_img_spec()
-        qcFolder.check_img_name()
+        qcFolder.run()
 
     def AddOn(self):
         self.addOnChoice={
                      '1': 'pdf_extract.main',
                      '2': 'back'
                      }
-        while True:
+
+        def _display_addon_menu():
             print("""
-========================================
+ﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈﰈ
 
-        Add Ons Menu
-        [1]: Extract PDF
-        [2]: Back
+         Add Ons Menu
 
-========================================
-                    """)
+        [1]:  Extract PDF
+        [2]:  Back
+
+﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐
+                        """)
+
+        while True:
+            _display_addon_menu()
             choice = input('Enter your option: ')
             action = self.addOnChoice.get(choice)
-            if choice == '2':
+            if action == 'back':
                 break
             elif action:
                 eval(f'{action}()')
