@@ -1,0 +1,19 @@
+.box{
+    background-color: azure;
+    padding:2px;
+    width:20vw;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    transition: transform 0.3s;
+    background: #2B2A2E;
+    border-radius: 7px;
+
+}
+.box:hover{
+    transform: scale(1.2)
+}
+
+.box p{
+    color:white;
+    text-align: center;
+}

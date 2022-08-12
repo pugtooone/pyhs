@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
 //Components
-import Sidebar from "./Components/Sidebar.jsx"
+import Sidebar from "./Components/Sidebar.jsx";
+import Newfeed from "./Components/Main.Newfeed/Newfeed.jsx";
 //Stylesheet
 import "./App.css";
 
@@ -20,7 +20,20 @@ class App extends Component {
     return (
       <>
       <Sidebar />
-      <div className="MainPage"></div>
+      <div className="MainPage">
+        <div className="Hero">
+        <div className="FeedsContainer">
+          <div className="SendContainer">
+            <Newfeed></Newfeed>
+            <Newfeed></Newfeed>
+            <Newfeed></Newfeed>
+          </div>
+          <div className="QCContainer">
+            <Newfeed></Newfeed>
+          </div>
+        </div>
+        </div>
+      </div>
       </>
       
       

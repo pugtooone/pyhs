@@ -1,10 +1,54 @@
 :root{
   --blue:#101010;
+  overflow: hidden;
+  height:100%;
 }
 
 .MainPage{
   width:94vw;
-  height:100%;
+  height:100vh;
   position:relative;
-  left:7.3vw;
+  left:6.5vw;
+  padding:5px;
+  display:flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Hero{
+  height: 90%;
+  width: 90%;
+  background: linear-gradient(178.69deg, rgba(200, 212, 223, 0.2145) 27.16%, rgba(200, 212, 223, 0.0132) 117.47%);
+  border-radius: 7px;
+}
+.FeedsContainer{
+  width:100%;
+  height:50%;
+
+  margin-top:50vh;
+  display:flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.SendContainer{
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height:100%;
+  width:35%;
+  overflow: hidden;
+  align-items: center;
+}
+
+.QCContainer{
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height:100%;
+  width:35%;
+  overflow: hidden;
 }

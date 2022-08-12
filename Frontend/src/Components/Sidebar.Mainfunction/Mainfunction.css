@@ -13,16 +13,16 @@
 }
 
 .selector{
-    transition: ease-in-out transform  0.3s;
+    transition: ease-out transform  0.2s;
 }
 
 .selector:hover{
-    transform: scale(1.2);
+    transform: scale(1.25);
     color: #9F9F9F;
 }
 
 .selector p{
-    transition: color 0.3s;
+    transition: color 0.2s;
 }
 
 .selector p:hover{

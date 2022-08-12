@@ -21,7 +21,8 @@ function Sidebar() {
           <Mainfunction type="Submit"></Mainfunction>
         </div>
         <div className='Exit'>
-          <box-icon color='white' animation='tada-hover' name='exit'></box-icon>
+          <span className="Break" />
+          <box-icon color='white' animation='tada-hover' name='log-out'></box-icon>
         </div>
       </div>
     </div>
