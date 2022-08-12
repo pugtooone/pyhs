@@ -8,8 +8,12 @@
     bottom:23px;
   }
 
+.circle-hidden{
+    visibility: hidden;
+}
+
 .selector{
-    transition: transform  0.3s;
+    transition: ease-in-out transform  0.3s;
 }
 
 .selector:hover{
@@ -23,6 +27,7 @@
 
 .selector p:hover{
     color : #5f5f5f;
+    
 }
 
 
