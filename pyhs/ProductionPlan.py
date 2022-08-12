@@ -10,7 +10,7 @@ class ProductionPlan:
             #convert to dict type as gspread.auth.service_account accepts only filename path or dict
             credDict = json.load(credJSON)
         gc = gspread.service_account_from_dict(credDict)
-        ppbook = gc.open('Copy of 2022 HK Production Planning')
+        ppbook = gc.open('2022 HK Production Planning')
         ppsheet = ppbook.worksheet('2022')
         return ppsheet
 
@@ -48,8 +48,17 @@ class ProductionPlan:
             return True
         return False
 
-    def fill_prod_plan(self):
-        pass
+    def fill_prod_plan(self, prodCount, imgCatDict):
+
+        #fill product count
+        prodNumCell = self._find('Total No. Product')
+        ProductionPlan.ppsheet.update(prodNumCell.address, prodCount)
+
+        #fill img count
+        for key, value in imgCatDict.items():
+            keyCell = self._find(key)
+            if value > 0:
+                ProductionPlan.ppsheet.update(keyCell.address, value)
 
     def update_job_status(self, stage):
         self.jobStatusCell = self._find('Job Status')
