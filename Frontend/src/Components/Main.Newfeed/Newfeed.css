@@ -1,19 +1,48 @@
-.box{
+.Box{
     background-color: azure;
-    padding:2px;
-    width:20vw;
+    padding:8px 12px;
+    width:30vw;
     margin-top: 5px;
     margin-bottom: 5px;
     transition: transform 0.3s;
-    background: #2B2A2E;
+    background: #2b2a2e64;
     border-radius: 7px;
+    display:flex;
+    justify-content: space-evenly;
+    align-items: center;
+    
 
 }
-.box:hover{
-    transform: scale(1.2)
+
+.Box:hover{
+    transform: scale(1.1)
 }
 
-.box p{
+.JobName{
+    width:45%;
     color:white;
     text-align: center;
+    
+}
+
+.Date{
+    width:12%;
+    color:white;
+    text-align: center;
+    position:relative;
+    right:25px;
+    font-weight: 200;
+}
+
+
+.Circle{
+    border-radius: 50%;
+    background-color: aliceblue;
+    width:40px;
+    height:40px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    position:relative;
+    right:12px;
 }
