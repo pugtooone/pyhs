@@ -6,7 +6,7 @@ function Newfeed(){
     const [name,setName] = useState("SampleBrand 123");
     const brand = ["OnTheList","Kipling"]
     function changebrand(){
-        setName(() => brand[1]);
+        setName(() => {return brand[1] + " 123";});
     }
 
 
