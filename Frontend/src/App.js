@@ -27,6 +27,9 @@ class App extends Component {
             <Newfeed></Newfeed>
             <Newfeed></Newfeed>
             <Newfeed></Newfeed>
+            <Newfeed></Newfeed>
+            <Newfeed></Newfeed>
+            <Newfeed></Newfeed>
           </div>
           <div className="QCContainer">
             <Newfeed></Newfeed>
