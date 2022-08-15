@@ -44,8 +44,7 @@
   padding-bottom:20px;
   border-radius: 8px;
   align-items: center;
-  border-style: solid;
-  border-color:rgb(194, 194, 194);
+  
   transition: background 1s;
 }
 
@@ -66,8 +65,7 @@
   padding-bottom:20px;
   border-radius: 8px;
   align-items: center;
-  border-style: solid;
-  border-color:rgb(194, 194, 194);
+  
   transition: background 1s;
 }
 
