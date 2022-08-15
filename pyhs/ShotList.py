@@ -10,10 +10,14 @@ class ShotList:
     gc = gspread.service_account_from_dict(credDict)
 
     def __init__(self, brand):
-        with resources.open_text('Resources', 'BrandShotList.json') as ShotListJSON:
-            self.shotListName = json.load(ShotListJSON)[brand]
-            self.brandShotList = ShotList.gc.open(self.shotListName)
-            self.qcTab = self.brandShotList.worksheet('For QC')
+        try:
+            with resources.open_text('Resources', 'BrandShotList.json') as ShotListJSON:
+                self.shotListName = json.load(ShotListJSON)[brand]
+                self.brandShotList = ShotList.gc.open(self.shotListName)
+                self.qcTab = self.brandShotList.worksheet('For QC')
+        except:
+            #return None for brand without shotlist permission
+            return None
 
     def fill_qc_tab(self, imgNum, imgNameList):
         self.qcTab.batch_clear(['A2:A'])

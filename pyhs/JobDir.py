@@ -24,7 +24,7 @@ class JobDir:
         self.imgDirObj = Img(self.jobDir)
         self.docDirObj = Doc(self.jobDir)
         self.prodPlanObj = ProductionPlan(self.jobName)
-        # self.shotListObj = ShotList(self.get_brand())
+        self.shotListObj = ShotList(self.get_brand())
 
     #menu display for CLI (not for gui)
     def display(self):
@@ -97,7 +97,10 @@ No. of comps: %s\n''' % (key, value['shot'], value['comp']))
 
     #shotListObj
     def fill_qc_tab(self):
-        self.shotListObj.fill_qc_tab(str(self.get_img_count() + 1), self.get_img_list())
+        #only run if shotlist of the brand is accessible
+        if self.shotListObj != None:
+            self.shotListObj.fill_qc_tab(str(self.get_img_count() + 1), self.get_img_list())
+        pass
 
 
 class ToSend(JobDir):
@@ -109,7 +112,7 @@ class ToSend(JobDir):
         self.check_img_spec()
         self.check_img_name()
         self.display()
-        # self.fill_qc_tab()
+        self.fill_qc_tab()
         self.fill_prod_plan()
         self.update_job_status('Retouching')
         self.write_email()
