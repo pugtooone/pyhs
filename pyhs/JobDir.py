@@ -12,7 +12,7 @@ class JobDir:
     #server client folders as brand list
     brandBaseDir = Path('/Volumes/Studio/CLIENTS/')
     brandBase = os.listdir(brandBaseDir)
-    brandBase.append('OnTheList')
+    brandBase.extend(['OnTheList', 'MBG', 'Agnes b'])
 
     def __init__(self, directory):
         """
@@ -24,7 +24,7 @@ class JobDir:
         self.imgDirObj = Img(self.jobDir)
         self.docDirObj = Doc(self.jobDir)
         self.prodPlanObj = ProductionPlan(self.jobName)
-        self.shotListObj = ShotList(self.get_brand())
+        # self.shotListObj = ShotList(self.get_brand())
 
     #menu display for CLI (not for gui)
     def display(self):
@@ -33,7 +33,7 @@ class JobDir:
 ----------------------------------------------------------------------------------------------------
     Job: {self.jobName}
     No. of Products: {len(self.imgDirObj.get_product_list(self.get_brand()).keys())}
-    No. of Images: {self.get_img_num()}
+    No. of Images: {self.get_img_count()}
 ====================================================================================================
                 """)
 
@@ -48,11 +48,14 @@ class JobDir:
     def get_img_list(self):
         return self.imgDirObj.get_img_list()
 
-    def get_img_num(self):
-        return self.imgDirObj.get_total_img_num()
+    def get_img_count(self):
+        return self.imgDirObj.get_total_img_count()
 
-    def get_cat_img_num(self):
-        return self.imgDirObj.get_cat_img_num()
+    def get_cat_img_count(self):
+        return self.imgDirObj.get_cat_img_count()
+
+    def get_product_count(self):
+        return self.imgDirObj.get_product_count(self.get_brand())
 
     def check_img_spec(self):
         return self.imgDirObj.check_img_spec(self.get_brand())
@@ -66,7 +69,7 @@ class JobDir:
         """
         self.productList = self.imgDirObj.get_product_list(self.get_brand())
         with open(self.jobDir / str(self.jobName + ' Summary'), 'a') as prodFile:
-            prodFile.write('%s Summary\n\nNo. of products: %s' % (self.jobName, len(self.productList.keys())))
+            prodFile.write('%s Summary\n\nNo. of products: %s\n' % (self.jobName, len(self.productList.keys())))
             for key, value in self.productList.items():
                 prodFile.write('''\n%s:
 No. of shots: %s
@@ -94,7 +97,7 @@ No. of comps: %s\n''' % (key, value['shot'], value['comp']))
 
     #shotListObj
     def fill_qc_tab(self):
-        self.shotListObj.fill_qc_tab(str(self.get_img_num() + 1), self.get_img_list())
+        self.shotListObj.fill_qc_tab(str(self.get_img_count() + 1), self.get_img_list())
 
 
 class ToSend(JobDir):
@@ -106,10 +109,11 @@ class ToSend(JobDir):
         self.check_img_spec()
         self.check_img_name()
         self.display()
-        self.fill_qc_tab()
-        self.write_summary()
-        self.write_email()
+        # self.fill_qc_tab()
+        self.fill_prod_plan()
         self.update_job_status('Retouching')
+        self.write_email()
+        self.write_summary()
 
     def _check_dir_structure(self, directory):
         jobDirls = os.listdir(directory)
@@ -121,14 +125,17 @@ class ToSend(JobDir):
             sys.exit(2)
 
     def write_email(self):
-        self.imgNum = self.get_img_num()
+        self.imgCount = self.get_img_count()
         self.docItems = self.get_doc_items()
-        self.email = f'Hi!\n\nPlease note that {self.jobName} is being uploaded to the server, including {self.imgNum} images along with {self.docItems}. Let me know if there is any question. Thanks!\n\n'
+        self.email = f'Hi!\n\nPlease note that {self.jobName} is being uploaded to the server, including {self.imgCount} images along with {self.docItems}. Let me know if there is any question. Thanks!\n\n'
         pyperclip.copy(self.email)
         print('\nEmail Template Copied')
 
     def check_img_spec(self):
         return self.imgDirObj.check_img_spec('ToSend')
+
+    def fill_prod_plan(self):
+        return self.prodPlanObj.fill_prod_plan(self.get_product_count(), self.get_cat_img_count())
 
 class QC(JobDir):
     def __init__(self, directory):
@@ -154,5 +161,5 @@ class QC(JobDir):
         return qcDutyList
 
     @staticmethod
-    def download_batch():
+    def download_job():
         pass

@@ -1,12 +1,12 @@
 from PIL import Image
 from importlib import resources
-from pathlib import Path
+import sys
 import re
 import json
 
 class Img:
 
-    imgCat = ('Model', 'Flaylay', 'Mannequin', 'Still', 'Jewel')
+    imgCat = ('Model', 'Flatlay', 'Mannequin', 'Still', 'Jewel')
 
     def __init__(self, directory):
         """
@@ -28,16 +28,16 @@ class Img:
     def get_img_list(self):
         return self.imgNameList
 
-    def get_total_img_num(self):
+    def get_total_img_count(self):
         self.imgNum = len(self.get_img_list())
         return self.imgNum
 
-    def get_cat_img_num(self):
+    def get_cat_img_count(self):
         imgNumDict = {}
         for cat in Img.imgCat:
             imgCatDir = self.imgDir / cat
             catImgList = []
-            for i in imgCatDir.glob('*.tif'):
+            for i in imgCatDir.glob('**/*.tif'):
                 img = i.name
                 catImgList.append(img)
             imgNumDict.update({cat: len(catImgList)})
@@ -73,7 +73,8 @@ class Img:
                 self.wrongNameList.append(img)
 
         if len(self.wrongNameList) > 0:
-            return self.wrongNameList
+            print(self.wrongNameList)
+            sys.exit(1)
         return None
 
     def get_product_list(self, brand):
@@ -100,3 +101,6 @@ class Img:
             self.productShotList[product]['shot'] -= self.productShotList[product]['comp']
 
         return self.productShotList
+
+    def get_product_count(self, brand):
+        return len(self.get_product_list(brand).keys())
