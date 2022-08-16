@@ -1,3 +1,7 @@
+*{
+    user-select: none;
+}
+
 .Box{
     background-color: azure;
     padding:8px 12px;
@@ -22,7 +26,6 @@
     width:45%;
     color:white;
     text-align: center;
-    
 }
 
 .Date{
