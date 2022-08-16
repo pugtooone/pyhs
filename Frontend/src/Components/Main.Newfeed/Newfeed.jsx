@@ -1,7 +1,7 @@
-import React, { Component, useState ,props} from 'react';
+import React, { Component, useState } from 'react';
 import "./Newfeed.css";
 
-function Newfeed(props){
+function Newfeed(){
 
     const [name,setName] = useState("SampleBrand");
     const brand = ["OnTheList","Kipling"]
