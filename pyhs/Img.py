@@ -1,6 +1,7 @@
 from PIL import Image
 from importlib import resources
 import sys
+import shutil
 import re
 import json
 
@@ -47,35 +48,35 @@ class Img:
     def _access_json(brand):
         with resources.open_text('Resources', 'BrandDatabase.json') as brandJsonFile:
             brandJson = json.load(brandJsonFile)
+        try:
             return brandJson[brand]
+        except KeyError:
+            return brandJson['Not Specified']
 
     def check_img_spec(self, brand):
         Img.brandImgSpec = Img._access_json(brand)['Spec']
-        self.wrongSpecList = [] #change to dictionary with key as img, value as specs
+        # self.wrongSpecList = [] #change to dictionary with key as img, value as specs
 
         for img in self.imgPathList:
             with Image.open(img) as imgObj:
                 for spec, value in Img.brandImgSpec.items():
                     if str(eval(f'imgObj.{spec}')) != value:
-                        self.wrongSpecList.append(img)
-
-        if len(self.wrongSpecList) > 0:
-            return self.wrongSpecList
-        return None
+                        checkDir = self.imgDir / 'Check Required'
+                        checkDir.mkdir(exist_ok=True)
+                        shutil.move(img, checkDir)
+                        # self.wrongSpecList.append(img)
 
     def check_img_name(self, brand):
         Img.brandCorName = Img._access_json(brand)['Name']
         corName = re.compile(r'{}'.format(Img.brandCorName))
-        self.wrongNameList = []
+        # self.wrongNameList = []
 
         for img in self.imgNameList:
             if not corName.fullmatch(img):
-                self.wrongNameList.append(img)
-
-        if len(self.wrongNameList) > 0:
-            print(self.wrongNameList)
-            sys.exit(1)
-        return None
+                checkDir = self.imgDir / 'Check Required'
+                checkDir.mkdir(exist_ok=True)
+                shutil.move(self.imgDir / img, checkDir)
+                # self.wrongNameList.append(img)
 
     def get_product_list(self, brand):
         Img.brandCorName = Img._access_json(brand)['Name']
