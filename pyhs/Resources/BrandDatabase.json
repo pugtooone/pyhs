@@ -7,6 +7,15 @@
 		}
 	},
 
+	"Not Specified":{
+		"Spec":{
+			"format": "TIFF",
+			"mode": "RGB",
+			"info[\"dpi\"]": "(300.0, 300.0)"
+		},
+		"Name": "([a-zA-Z0-9\\s]+)_[a-zA-Z0-9]+\\.tif"
+	},
+
 	"Agnes b":{
 		"Spec":{
 			"format": "TIFF",
