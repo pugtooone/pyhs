@@ -108,6 +108,10 @@ class ToSend(JobDir):
         super().__init__(directory)
         self._check_dir_structure(directory)
         
+    @staticmethod
+    def get_today_out_job():
+        return ProductionPlan.get_today_out_job()
+
     def run(self):
         self.check_img_spec()
         self.check_img_name()
@@ -127,18 +131,18 @@ class ToSend(JobDir):
             print('Error: wrong folder structure')
             sys.exit(2)
 
+    def check_img_spec(self):
+        return self.imgDirObj.check_img_spec('ToSend')
+
+    def fill_prod_plan(self):
+        return self.prodPlanObj.fill_prod_plan(self.get_product_count(), self.get_cat_img_count())
+
     def write_email(self):
         self.imgCount = self.get_img_count()
         self.docItems = self.get_doc_items()
         self.email = f'Hi!\n\nPlease note that {self.jobName} is being uploaded to the server, including {self.imgCount} images along with {self.docItems}. Let me know if there is any question. Thanks!\n\n'
         pyperclip.copy(self.email)
         print('\nEmail Template Copied')
-
-    def check_img_spec(self):
-        return self.imgDirObj.check_img_spec('ToSend')
-
-    def fill_prod_plan(self):
-        return self.prodPlanObj.fill_prod_plan(self.get_product_count(), self.get_cat_img_count())
 
 class QC(JobDir):
     def __init__(self, directory):

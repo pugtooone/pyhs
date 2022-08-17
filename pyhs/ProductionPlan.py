@@ -1,4 +1,5 @@
 from importlib import resources
+from datetime import date
 import json
 import gspread
 
@@ -20,7 +21,7 @@ class ProductionPlan:
         static method that does not need instantiation, for checking qc duty
         """
         ppsheet = ProductionPlan.open_prod_plan()
-        imgDeadlineCol = ppsheet.find('Image Delivery Deadline')
+        imgDeadlineCol = ppsheet.findall('Image Delivery Deadline')
         ppsheet.sort((imgDeadlineCol.col, 'asc'))
         qcDutyRow = ppsheet.findall(qc_id.title())
         qcDutyList = []
@@ -28,6 +29,18 @@ class ProductionPlan:
             qcDutyJob = ppsheet.cell(row.row, 3).value
             qcDutyList.append(qcDutyJob)
         return qcDutyList
+
+    @staticmethod
+    def get_today_out_job():
+        ppsheet = ProductionPlan.open_prod_plan()
+        jobNumCol = ppsheet.find('Job Number').col
+        imgOutDateCol = ppsheet.find('Image Out Date').col
+        imgOutDateList = ppsheet.findall(date.today().strftime('%-d/%-m/%y'), in_column=imgOutDateCol)
+        todayOutJobList = []
+        for i in range(len(imgOutDateList)):
+            job = ppsheet.cell(imgOutDateList[i].row, jobNumCol)
+            todayOutJobList.append(job.value)
+        return todayOutJobList
 
     def __init__(self, job_name):
         ProductionPlan.ppsheet = ProductionPlan.open_prod_plan()
