@@ -13,7 +13,7 @@ class App extends Component {
     eel.set_host("ws://localhost:8888");
     eel.hello();
     this.test = ["Kipling","OnTheList"];
-    this.state = {}
+    this.state = {hello:"Yo"}
   }
   adder(){
     console.log("clicked")
@@ -30,7 +30,7 @@ class App extends Component {
             
           </div>
           <div className="QCContainer">
-            <Newfeed></Newfeed>
+            <Newfeed>{this.state.hello}</Newfeed>
           </div>
         </div>
         </div>
