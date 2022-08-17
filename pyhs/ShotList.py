@@ -15,7 +15,7 @@ class ShotList:
                 self.shotListName = json.load(ShotListJSON)[brand]
                 self.brandShotList = ShotList.gc.open(self.shotListName)
                 self.qcTab = self.brandShotList.worksheet('For QC')
-        except:
+        except KeyError:
             #return None for brand without shotlist permission
             return None
 
