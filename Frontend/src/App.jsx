@@ -18,11 +18,12 @@ class App extends Component {
                   date:"12/7"
                 }
   }
-  adder(){
+  adder =() =>{
     console.log("clicked");
+    this.setState({brand: "test"} )
   }
 
-  getDate(){
+  getDate = () => {
     console.log("Get date");
     var date = new Date();
     date.getDate();
