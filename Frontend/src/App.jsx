@@ -12,24 +12,23 @@ class App extends Component {
     super(props);
     eel.set_host("ws://localhost:8888");
     eel.hello();
-    this.test = ["Kipling","OnTheList"];
-    this.state = {brand:"Kipling",
-                  jobnumber:"FW22 97",
-                  date:"12/7"
-                }
-  }
-  adder =() =>{
-    console.log("clicked");
-    this.setState({brand: "test"} )
+    this.state = {sendoutlist:[]
+                };
+    this.sendoutjoblist = [];
+    //<Newfeed key="{item1}"date={this.state.date}>{this.state.jobname}</Newfeed>
   }
 
-  getDate = () => {
-    console.log("Get date");
-    var date = new Date();
-    date.getDate();
-    console.log(date);
-    return date;
+  checkjob =() =>{
+    this.sendoutjoblist.push("Kipling FW22 97","OnTheList 123");
+    console.log(this.sendoutjoblist);
+    this.state.sendoutlist.push(this.sendoutjoblist.map((jobname) => <Newfeed>{jobname}</Newfeed>))
+    console.log(this.state.sendoutlist)
+    console.log("clicked");
   }
+
+
+
+//---------------------Render-------------------
 
   render() {
 
@@ -39,11 +38,10 @@ class App extends Component {
       <div className="MainPage">
         <div className="Hero">
         <div className="FeedsContainer">
-          <div className="SendContainer" onClick={this.adder}>
+          <div className="SendContainer" onClick={this.checkjob}>
             
           </div>
           <div className="QCContainer">
-            <Newfeed date={this.state.date}>{this.state.brand + " " + this.state.jobnumber}</Newfeed>
           </div>
         </div>
         </div>

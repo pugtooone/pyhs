@@ -1,11 +1,17 @@
 # coding: utf-8
 import eel
 import sys
+from pyhs import JobDir
 
 
 @eel.expose
 def hello():
     print('hello')
+
+@eel.expose
+def set():
+    pass
+
 
 
 if __name__ == '__main__':
