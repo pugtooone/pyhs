@@ -1,6 +1,5 @@
 from PIL import Image
 from importlib import resources
-import sys
 import shutil
 import re
 import json
@@ -71,11 +70,12 @@ class Img:
         corName = re.compile(r'{}'.format(Img.brandCorName))
         # self.wrongNameList = []
 
-        for img in self.imgNameList:
+        for imgPath in self.imgPathList:
+            img = imgPath.name
             if not corName.fullmatch(img):
                 checkDir = self.imgDir / 'Check Required'
                 checkDir.mkdir(exist_ok=True)
-                shutil.move(self.imgDir / img, checkDir)
+                shutil.move(imgPath, checkDir)
                 # self.wrongNameList.append(img)
 
     def get_product_list(self, brand):
