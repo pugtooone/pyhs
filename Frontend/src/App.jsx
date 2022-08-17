@@ -13,13 +13,25 @@ class App extends Component {
     eel.set_host("ws://localhost:8888");
     eel.hello();
     this.test = ["Kipling","OnTheList"];
-    this.state = {hello:"Yo"}
+    this.state = {brand:"Kipling",
+                  jobnumber:"FW22 97",
+                  date:"12/7"
+                }
   }
   adder(){
-    console.log("clicked")
+    console.log("clicked");
+  }
+
+  getDate(){
+    console.log("Get date");
+    var date = new Date();
+    date.getDate();
+    console.log(date);
+    return date;
   }
 
   render() {
+
     return (
       <>
       <Sidebar />
@@ -30,14 +42,12 @@ class App extends Component {
             
           </div>
           <div className="QCContainer">
-            <Newfeed>{this.state.hello}</Newfeed>
+            <Newfeed date={this.state.date}>{this.state.brand + " " + this.state.jobnumber}</Newfeed>
           </div>
         </div>
         </div>
       </div>
       </>
-      
-      
     );
   }
 }
