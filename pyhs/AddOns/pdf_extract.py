@@ -32,7 +32,7 @@ def img_extract():
 
     print('Images copied')
 
-def text_extract():
+def all_text_extract():
     file = Path(askopenfilename())
     pdf = fitz.open(file)
 
@@ -46,12 +46,28 @@ def text_extract():
     pyperclip.copy(text)
     print('Text copied')
 
+def text_with_annot_extract():
+    file = Path(askopenfilename())
+    pdf = fitz.open(file)
+
+    text = ""
+
+    for pageNo in range(len(pdf)):
+        page = pdf[pageNo]
+
+        if page.annot_names() != []:
+            text += page.get_text()
+
+    pyperclip.copy(text)
+    print('Text copied')
+
 def main():
 
     choice = {
-            "1": "text_extract",
-            "2": "img_extract",
-            "3": "back"
+            "1": "all_text_extract",
+            "2": "text_with_annot_extract",
+            "3": "img_extract",
+            "4": "back"
             }
 
     def _display_pdf_menu():
@@ -60,9 +76,10 @@ def main():
     
          PDF Extract Menu
 
-        [1]:  Extract Text
-        [2]:  Extract Image
-        [3]:  Back
+        [1]:  Extract All Text
+        [2]:  Extract Text with Annot
+        [3]:  Extract Image
+        [4]:  Back
 
 ﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐﯐
                 """)
