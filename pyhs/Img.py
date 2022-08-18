@@ -60,9 +60,12 @@ class Img:
             with Image.open(img) as imgObj:
                 for spec, value in Img.brandImgSpec.items():
                     if str(eval(f'imgObj.{spec}')) != value:
-                        checkDir = self.imgDir / 'Check Required'
+                        checkDir = img.parent / 'Check Required'
                         checkDir.mkdir(exist_ok=True)
-                        shutil.move(img, checkDir)
+                        try:
+                            shutil.move(img, checkDir)
+                        except shutil.Error:
+                            pass
                         # self.wrongSpecList.append(img)
 
     def check_img_name(self, brand):
@@ -73,9 +76,12 @@ class Img:
         for imgPath in self.imgPathList:
             img = imgPath.name
             if not corName.fullmatch(img):
-                checkDir = self.imgDir / 'Check Required'
+                checkDir = imgPath.parent / 'Check Required'
                 checkDir.mkdir(exist_ok=True)
-                shutil.move(imgPath, checkDir)
+                try:
+                    shutil.move(imgPath, checkDir)
+                except shutil.Error:
+                    pass
                 # self.wrongNameList.append(img)
 
     def get_product_list(self, brand):
@@ -85,11 +91,11 @@ class Img:
 
         for img in self.imgNameList:
 
-            #ignore img with wrong naming
-            if self.check_img_name(brand) != None and img in self.check_img_name(brand):
-                continue
+            try:
+                product = corName.fullmatch(img).group(1)
+            except AttributeError:
+                raise Exception('Wrong file naming')
 
-            product = corName.fullmatch(img).group(1)
             if not product in self.productShotList:
                 self.productShotList.update({product:{'shot': 1, 'comp': 0}})
             else:
