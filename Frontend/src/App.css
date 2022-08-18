@@ -1,77 +1,9 @@
 :root{
-  --blue:#101010;
   overflow: hidden;
   height:100%;
 }
 
 .MainPage{
-  width:94vw;
-  height:100vh;
-  position:relative;
-  left:6.5vw;
-  padding:5px;
-  display:flex;
-  align-items: center;
-  justify-content: center;
+  left:6.3vw;
 }
 
-.Hero{
-  height: 90%;
-  width: 90%;
-  background: linear-gradient(178.69deg, rgba(200, 212, 223, 0.2145) 27.16%, rgba(200, 212, 223, 0.0132) 117.47%);
-  border-radius: 7px;
-}
-.FeedsContainer{
-  width:100%;
-  height:40vh;
-  margin-top:45vh;
-  display:flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-}
-
-.SendContainer{
-  display:flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  height:100%;
-  width:45%;
-  overflow-y: scroll;
-  overflow-x:hidden;
-  padding-top:30px;
-  padding-bottom:20px;
-  border-radius: 8px;
-  align-items: center;
-  
-  transition: background 1s;
-}
-
-.SendContainer:hover{
-  background: rgba(235, 235, 232, 0.3145);
-}
-
-.QCContainer{
-  display:flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  height:100%;
-  width:45%;
-  overflow-y: scroll;
-  overflow-x:hidden;
-  padding-top:30px;
-  padding-bottom:20px;
-  border-radius: 8px;
-  align-items: center;
-  
-  transition: background 1s;
-}
-
-.QCContainer:hover{
-  background: rgba(235, 235, 232, 0.2145);
-}
-::-webkit-scrollbar{
-  width:2px;
-}
