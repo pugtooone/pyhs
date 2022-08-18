@@ -17,7 +17,7 @@ function MainPage() {
                     {joblist.map((items)=><Newfeed>{items}</Newfeed>)}
                 </div>
                 <div className="QCContainer">
-                    
+                    {joblist.map((items)=><Newfeed>{items}</Newfeed>)}
                 </div>
             </div>
         </div>
