@@ -32,7 +32,7 @@ class JobDir:
     Job Directory Information
 ----------------------------------------------------------------------------------------------------
     Job: {self.jobName}
-    No. of Products: {len(self.imgDirObj.get_product_list(self.get_brand()).keys())}
+    No. of Products: {self.get_product_count()}
     No. of Images: {self.get_img_count()}
 ====================================================================================================
                 """)
@@ -54,6 +54,9 @@ class JobDir:
     def get_cat_img_count(self):
         return self.imgDirObj.get_cat_img_count()
 
+    def get_product_list(self):
+        return self.imgDirObj.get_product_list(self.get_brand())
+
     def get_product_count(self):
         return self.imgDirObj.get_product_count(self.get_brand())
 
@@ -64,16 +67,16 @@ class JobDir:
         return self.imgDirObj.check_img_name(self.get_brand())
     
     def write_summary(self):
-        """
-        create a txt file for the summary of the job folder
-        """
-        self.productList = self.imgDirObj.get_product_list(self.get_brand())
-        with open(self.jobDir / str(self.jobName + ' Summary'), 'a') as prodFile:
-            prodFile.write('%s Summary\n\nNo. of products: %s\n' % (self.jobName, len(self.productList.keys())))
-            for key, value in self.productList.items():
-                prodFile.write('''\n%s:
-No. of shots: %s
-No. of comps: %s\n''' % (key, value['shot'], value['comp']))
+        self.productList = self.get_product_list()
+        self.prodCount = self.get_product_count()
+
+        with open(self.jobDir / str(self.jobName + ' Summary'), 'a') as sumFile:
+            sumFile.write('%s Summary\n\nNo. of products: %s\n' % (self.jobName, self.prodCount))
+            if self.productList != None:
+                for key, value in self.productList.items():
+                    sumFile.write('''\n%s:
+    No. of shots: %s
+    No. of comps: %s\n''' % (key, value['shot'], value['comp']))
 
 
     #docObj
