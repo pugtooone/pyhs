@@ -50,10 +50,14 @@ class Img:
         try:
             return brandJson[brand]
         except KeyError:
-            return brandJson['Not Specified']
+            raise NoBrandDataException
 
     def check_img_spec(self, brand):
-        Img.brandImgSpec = Img._access_json(brand)['Spec']
+        try:
+            Img.brandImgSpec = Img._access_json(brand)['Spec']
+        except NoBrandDataException:
+            print('No brand data for {}'.format(brand))
+            return None
         # self.wrongSpecList = [] #change to dictionary with key as img, value as specs
 
         for img in self.imgPathList:
@@ -69,7 +73,12 @@ class Img:
                         # self.wrongSpecList.append(img)
 
     def check_img_name(self, brand):
-        Img.brandCorName = Img._access_json(brand)['Name']
+        try:
+            Img.brandCorName = Img._access_json(brand)['Name']
+        except NoBrandDataException:
+            print('No brand data for {}'.format(brand))
+            return None
+
         corName = re.compile(r'{}'.format(Img.brandCorName))
         # self.wrongNameList = []
 
@@ -85,7 +94,12 @@ class Img:
                 # self.wrongNameList.append(img)
 
     def get_product_list(self, brand):
-        Img.brandCorName = Img._access_json(brand)['Name']
+        try:
+            Img.brandCorName = Img._access_json(brand)['Name']
+        except NoBrandDataException:
+            print('No brand data for {}'.format(brand))
+            return None
+
         corName = re.compile(r'{}'.format(Img.brandCorName))
         self.productShotList = {}
 
@@ -111,3 +125,6 @@ class Img:
 
     def get_product_count(self, brand):
         return len(self.get_product_list(brand).keys())
+
+class NoBrandDataException(Exception):
+    pass
