@@ -94,6 +94,7 @@ class Img:
                 # self.wrongNameList.append(img)
 
     def get_product_list(self, brand):
+        #raise exception if no brand data
         try:
             Img.brandCorName = Img._access_json(brand)['Name']
         except NoBrandDataException:
@@ -104,11 +105,11 @@ class Img:
         self.productShotList = {}
 
         for img in self.imgNameList:
-
+            #raise exception when file naming is wrong, or re.compile is wrong
             try:
                 product = corName.fullmatch(img).group(1)
             except AttributeError:
-                raise Exception('Wrong file naming')
+                raise Exception('Wrong file naming or Wrong RE')
 
             if not product in self.productShotList:
                 self.productShotList.update({product:{'shot': 1, 'comp': 0}})
@@ -124,7 +125,12 @@ class Img:
         return self.productShotList
 
     def get_product_count(self, brand):
-        return len(self.get_product_list(brand).keys())
+        try:
+            self.prodCount = len(self.get_product_list(brand).keys())
+        except NoBrandDataException:
+            self.prodCount = 'NA'
+        finally:
+            return self.prodCount
 
 class NoBrandDataException(Exception):
     pass
