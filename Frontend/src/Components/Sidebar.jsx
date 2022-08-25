@@ -16,9 +16,9 @@ function Sidebar() {
           <box-icon color="white" name='home-alt-2'></box-icon>
         </div>
         <div className='Mainfunction'>
-          <Mainfunction type="Send"></Mainfunction>
-          <Mainfunction type="QC"></Mainfunction>
-          <Mainfunction type="Submit"></Mainfunction>
+          <Mainfunction>Send</Mainfunction>
+          <Mainfunction>QC</Mainfunction>
+          <Mainfunction>Submit</Mainfunction>
         </div>
         <div className='Exit'>
           <span className="Break" />
