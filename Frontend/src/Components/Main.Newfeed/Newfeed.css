@@ -21,15 +21,32 @@ span{
     border-radius: 7px;
     box-shadow: 4px 8px 12px #00000034;
     transition: transform 0.4s;
+    overflow:hidden;
 }
 
-.Box >div{
-    display:flex;
-    justify-content: space-evenly;
-    align-items:center;
-    
-    
+.Urgent_Box{
+    background-color: azure;
+    padding:12px 12px;
+    width:90%;
+    height:36px;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+    background: #2b2a2e64;
+    border-radius: 7px;
+    box-shadow: 4px 8px 12px #00000034;
+    transition: transform 0.4s;
+    overflow:hidden;
+    border-style: solid;
+    border-color:red;
 }
+
+.Surface{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+
 
 .Box:hover{
     transform: scale(1.05);
