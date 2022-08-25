@@ -4,7 +4,7 @@ import Newfeed from "../../Components/Main.Newfeed/Newfeed.jsx";
 
 
 function MainPage() {
-    const joblist = ["OnTheList","Kipling","Arena","Petit Bateau"]
+    const joblist = [["OnTheList 102","QC"],"OnTheList 103","Kipling FW22 100","Kipling FW22 101","Arena","Petit Bateau"]
     const clickhandler = () =>{
         
     }
@@ -15,7 +15,7 @@ function MainPage() {
             <div className="FeedsContainer">
                 
                 <div className="SendContainer">
-                    {joblist.map((items)=><Newfeed date="12/5">{items}</Newfeed>)}
+                    {joblist.map((items,caction)=><Newfeed date="12/5" action={caction}>{items}</Newfeed>)}
                 </div>
             </div>
         </div>

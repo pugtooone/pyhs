@@ -6,9 +6,13 @@
     user-select: none;
 }
 
+span{
+    color:white;
+}
+
 .Box{
     background-color: azure;
-    padding:8px 12px;
+    padding:12px 12px;
     width:90%;
     height:36px;
     margin-top: 1vh;
@@ -16,29 +20,28 @@
     background: #2b2a2e64;
     border-radius: 7px;
     box-shadow: 4px 8px 12px #00000034;
-    
-    transition: transform 0.5s;
+    transition: transform 0.4s;
 }
 
 .Box >div{
     display:flex;
     justify-content: space-evenly;
     align-items:center;
+    
+    
 }
 
 .Box:hover{
-    transform: scale(1.02);
+    transform: scale(1.05);
 }
 
 .JobName{
     width:45%;
-    color:white;
     text-align: center;
 }
 
 .Date{
     width:12%;
-    color:white;
     text-align: center;
     position:relative;
     right:25px;
