@@ -32,7 +32,7 @@
     justify-content: flex-start;
     align-items: center;
     height:100%;
-    width:45%;
+    width:95%;
     overflow-y: scroll;
     overflow-x:hidden;
     padding-top:30px;
@@ -47,26 +47,6 @@
     background: rgba(235, 235, 232, 0.3145);
   }
   
-  .QCContainer{
-    display:flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    height:100%;
-    width:45%;
-    overflow-y: scroll;
-    overflow-x:hidden;
-    padding-top:30px;
-    padding-bottom:20px;
-    border-radius: 8px;
-    align-items: center;
-    
-    transition: background 1s;
-  }
-  
-  .QCContainer:hover{
-    background: rgba(235, 235, 232, 0.2145);
-  }
   ::-webkit-scrollbar{
     width:2px;
   }

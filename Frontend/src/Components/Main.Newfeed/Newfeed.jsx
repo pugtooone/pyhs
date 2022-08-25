@@ -8,6 +8,8 @@ function Newfeed(props){
         <div className="Circle"><box-icon name='file' color='#2B2A2E'></box-icon></div>
         <span className="Date">{props.date}</span>
         <span className="JobName">{props.children}</span>
+        <div className ="Start">Start</div>
+        <div className = "Snooze">Snooze</div>
         
         
     </div>

@@ -1,3 +1,7 @@
+:root{
+    --borderradius:7px;
+}
+
 *{
     user-select: none;
 }
@@ -5,10 +9,9 @@
 .Box{
     background-color: azure;
     padding:8px 12px;
-    width:30vw;
+    width:80%;
     margin-top: 5px;
     margin-bottom: 5px;
-    transition: transform 0.3s;
     background: #2b2a2e64;
     border-radius: 7px;
     display:flex;
@@ -16,10 +19,6 @@
     align-items: center;
     
 
-}
-
-.Box:hover{
-    transform: scale(1.1)
 }
 
 .JobName{
@@ -48,4 +47,30 @@
     align-items: center;
     position:relative;
     right:12px;
+}
+
+.Start{
+    border-radius: var(--borderradius);
+    background-color: rgb(22, 171, 22);
+    padding:5px 18px;
+    color:white;
+    font-size: small;
+    transition: transform 0.3s;
+}
+
+.Start:hover{
+    transform:scale(1.15);
+}
+
+.Snooze{
+    border-radius: var(--borderradius);
+    background-color: orange;
+    padding:5px 18px;
+    color:white;
+    font-size: small;
+    transition: transform 0.3s;
+}
+
+.Snooze:hover{
+    transform:scale(1.15);
 }
