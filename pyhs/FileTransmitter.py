@@ -5,18 +5,38 @@ import json
 
 class FileTransmitter:
 
-    TBQ = Path.home() / 'Desktop' / 'IHS' / 'To Be QC'
+    TBQ = Path.home() / 'Desktop' / 'To Be QC'
 
     def __init__(self, vendor):
         self.vendor = vendor
 
     def download_job(self, job):
         ftp = self._connect_ftp('download')
-        jobPath = FileTransmitter.TBQ / job
+        ftp.cwd(job)
 
-        #not working as retrbinary only works on file not dir
-        # with open(jobPath, 'wb') as file:
-            # ftp.retrbinary('RETR {}'.format(job), file.write)
+        jobPath = FileTransmitter.TBQ / job
+        jobPath.mkdir(exist_ok=True)
+
+        def ftp_loop(fileType):
+            if fileType == ['dir']:
+
+
+        while True:
+            fileList = ftp.mlsd() #return tuple (filename, data dict)
+
+            for file, data in fileList:
+                fileType = data['type']
+
+                if fileType == ['dir']:
+                    jobPath = jobPath / file
+                    jobPath.mkdir(exist_ok=True)
+                    ftp.cwd(file)
+                    continue
+                elif fileType == ['file']:
+                    filePath = jobPath / file
+                    with open(filePath, 'wb') as file:
+                        ftp.retrbinary('RETR {}'.format(file), file.write)
+
         ftp.quit()
 
     def _connect_ftp(self, stage):
