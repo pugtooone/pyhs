@@ -13,6 +13,7 @@ function MainPage() {
     <div className="MainPage">
         <div className="Hero">
             <div className="FeedsContainer">
+                
                 <div className="SendContainer">
                     {joblist.map((items)=><Newfeed date="12/5">{items}</Newfeed>)}
                 </div>
