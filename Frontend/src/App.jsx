@@ -11,7 +11,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     eel.set_host("ws://localhost:8888");
-    eel.hello(); 
+    eel.hello();
+    console.log(()=>eel.getJob())
+    
   }
 
 //---------------------Render-------------------
@@ -19,7 +21,7 @@ class App extends Component {
 
     return (
     <div>
-      <Sidebar />
+      <Sidebar/>
       <MainPage/>
     </div>
     );
