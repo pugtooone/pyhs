@@ -30,7 +30,9 @@ function Newfeed(props){
     return(
     <div className={props.urgent?'Urgent_Box':'Box'} style={expand?expandedcontent:unexpandcontent}>
         <div className='Surface'>
-            <div className="Circle"><box-icon name='file' color='#2B2A2E'></box-icon></div>
+            <div className="Circle">
+                <box-icon name='file' color='#2B2A2E'></box-icon>
+            </div>
             <span className="Date">{props.date}</span>
             <span className="JobName" onClick={expandhandler}>{props.children}</span>
             <div className ="Start">Start</div>

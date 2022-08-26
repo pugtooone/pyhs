@@ -11,13 +11,13 @@ span{
 }
 
 .Box{
-    background-color: azure;
+    
     padding:12px 12px;
     width:90%;
     height:36px;
     margin-top: 1vh;
     margin-bottom: 1vh;
-    background: #2b2a2e;
+    background: radial-gradient(253.42% 1244.62% at 122.49% 0%, #2A2B2E 0%, #323336 11.37%, #121116 98.57%);
     border-radius: 7px;
     box-shadow: 4px 8px 12px #00000034;
     transition: transform 0.4s;
@@ -25,13 +25,13 @@ span{
 }
 
 .Urgent_Box{
-    background-color: azure;
+    
     padding:12px 12px;
     width:90%;
     height:36px;
     margin-top: 1vh;
     margin-bottom: 1vh;
-    background: #2b2a2e;
+    background: radial-gradient(253.42% 1244.62% at 122.49% 0%, #2A2B2E 0%, #323336 11.37%, #121116 98.57%);
     border-radius: 7px;
     box-shadow: 4px 8px 12px #00000034;
     transition: transform 0.4s;
