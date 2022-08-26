@@ -19,6 +19,7 @@
 .selector:hover{
     transform: scale(1.25);
     color: #9F9F9F;
+    cursor:pointer;
 }
 
 .selector p{

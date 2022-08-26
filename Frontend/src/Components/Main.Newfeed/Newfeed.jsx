@@ -13,10 +13,10 @@ function Newfeed(props){
                             };
     //useState functions
     const [expand,setExpand] = useState(false);
-    const [urgent,setUrgent] = useState(false);
+    
 
     //Event Handler
-
+    
 
     const expandhandler = () => {
         if (expand == false){
@@ -28,12 +28,12 @@ function Newfeed(props){
     };
 
     return(
-    <div className={urgent?'Urgent_Box':'Box'} style={expand?expandedcontent:unexpandcontent}>
+    <div className={props.urgent?'Urgent_Box':'Box'} style={expand?expandedcontent:unexpandcontent}>
         <div className='Surface'>
             <div className="Circle"><box-icon name='file' color='#2B2A2E'></box-icon></div>
             <span className="Date">{props.date}</span>
             <span className="JobName" onClick={expandhandler}>{props.children}</span>
-            <div className ="Start">{props.action}</div>
+            <div className ="Start">Start</div>
             <div className = "Snooze">Snooze</div>
         </div>
         <div style={{marginTop:'30px'}}>

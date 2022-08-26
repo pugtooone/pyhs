@@ -17,7 +17,7 @@ span{
     height:36px;
     margin-top: 1vh;
     margin-bottom: 1vh;
-    background: #2b2a2e64;
+    background: #2b2a2e;
     border-radius: 7px;
     box-shadow: 4px 8px 12px #00000034;
     transition: transform 0.4s;
@@ -31,13 +31,21 @@ span{
     height:36px;
     margin-top: 1vh;
     margin-bottom: 1vh;
-    background: #2b2a2e64;
+    background: #2b2a2e;
     border-radius: 7px;
     box-shadow: 4px 8px 12px #00000034;
     transition: transform 0.4s;
     overflow:hidden;
     border-style: solid;
     border-color:red;
+}
+
+.Box:hover{
+    transform: scale(1.05);
+}
+
+.Urgent_Box:hover{
+    transform: scale(1.05);
 }
 
 .Surface{
@@ -48,9 +56,7 @@ span{
 }
 
 
-.Box:hover{
-    transform: scale(1.05);
-}
+
 
 .JobName{
     width:45%;
