@@ -148,8 +148,8 @@ class ToSend(JobDir):
         print('\nEmail Template Copied')
 
 class QC(JobDir):
-    def __init__(self, directory):
-        super().__init__(directory)
+    def __init__(self):
+        pass
 
     def run(self):
         # self.check_download()

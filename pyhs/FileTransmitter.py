@@ -7,8 +7,9 @@ class FileTransmitter:
 
     TBQ = Path.home() / 'Desktop' / 'To Be QC'
 
-    def __init__(self, vendor):
+    def __init__(self, vendor, job):
         self.vendor = vendor
+        self.job = job
 
     def _connect_ftp(self, stage):
         """
@@ -36,7 +37,7 @@ class FileTransmitter:
         ftp.cwd(dir)
         return ftp
 
-    def download_job(self, job):
+    def download_job(self):
 
         def ftp_loop(fileList, jobPath):
             """
@@ -63,15 +64,15 @@ class FileTransmitter:
                         print('{} is downloaded'.format(file))
 
         ftp = self._connect_ftp('download')
-        ftp.cwd(job)
+        ftp.cwd(self.job)
 
         fileList = ftp.mlsd() #return tuple (filename, data dict)
 
-        jobPath = FileTransmitter.TBQ / job
+        jobPath = FileTransmitter.TBQ / self.job
         jobPath.mkdir(exist_ok=True)
 
         ftp_loop(fileList, jobPath)
         ftp.quit()
 
-    def upload_job(self, job):
+    def upload_job(self):
         pass

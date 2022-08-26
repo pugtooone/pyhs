@@ -84,7 +84,7 @@ class Img:
 
         for imgPath in self.imgPathList:
             img = imgPath.name
-            if not corName.fullmatch(img):
+            if not corName.fullmatch(img.lower()):
                 checkDir = imgPath.parent / 'Check Required'
                 checkDir.mkdir(exist_ok=True)
                 try:
@@ -107,7 +107,8 @@ class Img:
         for img in self.imgNameList:
             #raise exception when file naming is wrong, or re.compile is wrong
             try:
-                product = corName.fullmatch(img).group(1)
+                print(img)
+                product = corName.fullmatch(img.lower()).group(1)
             except AttributeError:
                 raise Exception('Wrong file naming or Wrong RE')
 
@@ -115,7 +116,7 @@ class Img:
                 self.productShotList.update({product:{'shot': 1, 'comp': 0}})
             else:
                 self.productShotList[product]['shot'] += 1
-            if 'COMP' in img or 'INSERT' in img:
+            if 'comp' in img.lower() or 'insert' in img.lower():
                 self.productShotList[product]['comp'] += 1
 
         #actual shot count
