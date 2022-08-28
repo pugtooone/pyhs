@@ -23,10 +23,10 @@ class ProductionPlan:
         ppsheet = ProductionPlan.open_prod_plan()
         imgDeadlineCol = ppsheet.findall('Image Delivery Deadline')
         ppsheet.sort((imgDeadlineCol.col, 'asc'))
-        qcDutyRow = ppsheet.findall(qc_id.title())
+        qcDutyCell = ppsheet.findall(qc_id.title()) #QC name is under title format
         qcDutyList = []
-        for row in qcDutyRow:
-            qcDutyJob = ppsheet.cell(row.row, 3).value
+        for r in qcDutyCell:
+            qcDutyJob = ppsheet.cell(r.row, 3).value #col 3 is Job No.
             qcDutyList.append(qcDutyJob)
         return qcDutyList
 
