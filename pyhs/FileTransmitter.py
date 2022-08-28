@@ -36,7 +36,7 @@ class FileTransmitter:
         ftp.cwd(dir)
         return ftp
 
-    def download_job(self, job):
+    def download_ftp_job(self, job):
 
         def ftp_loop(fileList, jobPath):
             """
@@ -73,5 +73,5 @@ class FileTransmitter:
         ftp_loop(fileList, jobPath)
         ftp.quit()
 
-    def upload_job(self, job):
+    def upload_ftp_job(self, job):
         pass
