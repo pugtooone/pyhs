@@ -50,11 +50,14 @@ class Img:
         try:
             return brandJson[brand][spec]
         except KeyError:
-            print('No brand data for {}'.format(brand))
-            return None
+            print(f'No brand data for {brand}')
+            raise NoBrandDataError(brand)
 
     def check_img_spec(self, brand):
-        Img.brandImgSpec = Img._access_brand_spec(brand, 'Spec')
+        try:
+            Img.brandImgSpec = Img._access_brand_spec(brand, 'Spec')
+        except NoBrandDataError:
+            return None
         # self.wrongSpecList = [] #change to dictionary with key as img, value as specs
 
         for img in self.imgPathList:
@@ -70,7 +73,10 @@ class Img:
                         # self.wrongSpecList.append(img)
 
     def check_img_name(self, brand):
-        Img.brandCorName = Img._access_brand_spec(brand, 'Name')
+        try:
+            Img.brandCorName = Img._access_brand_spec(brand, 'Name')
+        except NoBrandDataError:
+            return None
 
         corName = re.compile(r'{}'.format(Img.brandCorName))
         # self.wrongNameList = []
@@ -87,7 +93,10 @@ class Img:
                 # self.wrongNameList.append(img)
 
     def get_product_list(self, brand):
-        Img.brandCorName = Img._access_brand_spec(brand, 'Name')
+        try:
+            Img.brandCorName = Img._access_brand_spec(brand, 'Name')
+        except NoBrandDataError:
+            return None
 
         corName = re.compile(r'{}'.format(Img.brandCorName))
         self.productShotList = {}
@@ -95,7 +104,6 @@ class Img:
         for img in self.imgNameList:
             #raise exception when file naming is wrong, or re.compile is wrong
             try:
-                print(img)
                 product = corName.fullmatch(img.lower()).group(1)
             except AttributeError:
                 raise WrongNamingError(img)
@@ -115,11 +123,15 @@ class Img:
 
     def get_product_count(self, brand):
         try:
-            self.prodCount = len(self.get_product_list(brand).keys())
+            if self.get_product_list(brand) != None:
+                self.prodCount = len(self.get_product_list(brand).keys())
         except WrongNamingError:
-            self.prodCount = 'NA'
+            return 'NA'
         finally:
             return self.prodCount
 
 class WrongNamingError(Exception):
+    pass
+
+class NoBrandDataError(Exception):
     pass
