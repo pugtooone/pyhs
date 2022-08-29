@@ -17,6 +17,7 @@ class ShotList:
                 self.qcTab = self.brandShotList.worksheet('For QC')
         except KeyError:
             #return None for brand without shotlist permission
+            print(f'No Shotlist data for {brand}')
             return None
 
     def fill_qc_tab(self, imgNum, imgNameList):
