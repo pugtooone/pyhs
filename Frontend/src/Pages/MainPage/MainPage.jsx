@@ -1,6 +1,7 @@
 import React, { Component ,useState} from 'react';
 import "./MainPage.css";
 import Newfeed from "../../Components/Main.Newfeed/Newfeed.jsx";
+import { eel } from "../../eel";
 
 
 function MainPage() {
@@ -8,6 +9,10 @@ function MainPage() {
     const joblist = [{jobname:"OnTheList",date:"12/5",urgent:true},
                     {jobname:"Kipling",date:"13/5",urgent:false}
                     ];
+
+    
+    
+
 
     //useState Events
     const [urgent,setUrgent] = useState(false);
@@ -23,9 +28,9 @@ function MainPage() {
             <div className="FeedsContainer">
                 
                 <div className="SendContainer">
-                    {joblist.map((item,key)=><Newfeed 
-                                            id = {key} 
-                                            urgent = {item.urgent}
+                    {joblist.map((item,id)=><Newfeed 
+                                            key = {id} 
+                                            urgent ={item.urgent}
                                             date="12/5">
                                             {item.jobname}
                                             </Newfeed>)}

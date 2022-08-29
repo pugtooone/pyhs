@@ -2,6 +2,7 @@ from Img import Img
 from Doc import Doc
 from ProductionPlan import ProductionPlan
 from ShotList import ShotList
+from FileTransmitter import FileTransmitter
 from pathlib import Path
 import os
 import sys
@@ -149,12 +150,45 @@ class ToSend(JobDir):
 
 class QC(JobDir):
     def __init__(self):
+<<<<<<< HEAD
         pass
+=======
+        directory = self.startup()
+        super().__init__(directory)
+>>>>>>> 3fdd078bcdb02e340a52c872360a351a6c1fda81
+
+    def startup(self):
+        """
+        startup function run before calling super().__init__()
+        as jobDir is not exist yet
+        """
+        self.qcDuty = QC.get_qc_duty()
+        option = {}
+        #print job option for qc to choose
+        for index, jobName in enumerate(self.qcDuty):
+            option.update({index: jobName})
+            print('{}: {}'.format(index, jobName))
+
+        while not self.jobName:
+            try:
+                choice = input('Enter your job:\n')
+                self.jobName = self.qcDuty[int(choice)]
+            except IndexError:
+                print('Invalid input')
+                continue
+
+        self.prodPlanObj = ProductionPlan(self.jobName)
+        if self.check_download():
+            print('Job is already downloaded')
+            sys.exit()
+
+        self.vendor = self.get_vendor()
+        QC.download_job(self.vendor, self.jobName)
+        return FileTransmitter.TBQ / self.jobName
 
     def run(self):
-        # self.check_download()
-        # self.check_img_spec()
-        # self.check_img_name()
+        self.check_img_spec()
+        self.check_img_name()
         # self.write_summary()
         self.display()
 
@@ -171,5 +205,10 @@ class QC(JobDir):
         return qcDutyList
 
     @staticmethod
-    def download_job():
-        pass
+    def download_job(vendor, jobName):
+        if vendor == 'CutOut' or vendor == 'Schnell':
+            FileTransmitter(vendor).download_ftp_job(jobName)
+        elif vendor == 'Dresma':
+            pass
+        elif vendor == 'Adnet':
+            pass
