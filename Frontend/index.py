@@ -1,17 +1,12 @@
 # coding: utf-8
 import eel
 import sys
-import pyhs
+
 
 @eel.expose
-def hello():
-    print("Hello World")
-    
-@eel.expose
-def getJob():
-    x = pyhs.ProductionPlan.get_job_status()
-    return x
-
+def connection():
+    print("Connection Between python and javascript is working")
+ 
 
 #Run Eel
 if __name__ == '__main__':

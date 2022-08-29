@@ -20,7 +20,6 @@ span{
     background: radial-gradient(253.42% 1244.62% at 122.49% 0%, #2A2B2E 0%, #323336 11.37%, #121116 98.57%);
     border-radius: 7px;
     box-shadow: 4px 8px 12px #00000034;
-    transition: transform 0.4s;
     overflow:hidden;
 }
 
@@ -34,7 +33,6 @@ span{
     background: radial-gradient(253.42% 1244.62% at 122.49% 0%, #2A2B2E 0%, #323336 11.37%, #121116 98.57%);
     border-radius: 7px;
     box-shadow: 4px 8px 12px #00000034;
-    transition: transform 0.4s;
     overflow:hidden;
     border-style: solid;
     border-color:red;
@@ -61,6 +59,7 @@ span{
 .JobName{
     width:45%;
     text-align: center;
+    cursor: pointer;
 }
 
 .Date{

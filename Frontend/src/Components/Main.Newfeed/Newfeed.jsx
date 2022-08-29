@@ -5,11 +5,13 @@ function Newfeed(props){
     //stylesheet
     
     const expandedcontent = {height:'200px',
-                             transition:'height 0.3s ease-out'
+                             transition:' height 0.5s ease-out, transform 0.4s',
+                             
                             };
 
     const unexpandcontent = {height:'36px',
-                             transition:'height 0.5s'
+                             transition:' height 0.5s ease-out, transform 0.4s',
+                             
                             };
     //useState functions
     const [expand,setExpand] = useState(false);
