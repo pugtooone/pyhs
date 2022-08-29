@@ -37,11 +37,7 @@ class FileTransmitter:
         ftp.cwd(dir)
         return ftp
 
-<<<<<<< HEAD
-    def download_job(self):
-=======
-    def download_ftp_job(self, job):
->>>>>>> 3fdd078bcdb02e340a52c872360a351a6c1fda81
+    def download_ftp_job(self):
 
         def ftp_loop(fileList, jobPath):
             """
@@ -67,8 +63,15 @@ class FileTransmitter:
                         ftp.retrbinary('RETR {}'.format(file), f.write)
                         print('{} is downloaded'.format(file))
 
+        def cd_to_job():
+            if self.job in ftp.nlst():
+                ftp.cwd(self.job)
+            else:
+                for folder in ftp.nlst():
+                    ftp.cwd(folder)
+                    cd_to_job()
+
         ftp = self._connect_ftp('download')
-        ftp.cwd(self.job)
 
         fileList = ftp.mlsd() #return tuple (filename, data dict)
 
@@ -78,9 +81,5 @@ class FileTransmitter:
         ftp_loop(fileList, jobPath)
         ftp.quit()
 
-<<<<<<< HEAD
-    def upload_job(self):
-=======
     def upload_ftp_job(self, job):
->>>>>>> 3fdd078bcdb02e340a52c872360a351a6c1fda81
         pass
