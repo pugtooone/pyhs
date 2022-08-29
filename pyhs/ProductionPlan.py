@@ -21,13 +21,13 @@ class ProductionPlan:
         static method that does not need instantiation, for checking qc duty
         """
         ppsheet = ProductionPlan.open_prod_plan()
-        imgDeadlineCol = ppsheet.findall('Image Delivery Deadline')
-        ppsheet.sort((imgDeadlineCol.col, 'asc'))
-        qcDutyCell = ppsheet.findall(qc_id.title()) #QC name is under title format
+        qcNameCol = ppsheet.find('QC Name').col
+        waitingQCRow = ppsheet.findall('Waiting QC')
         qcDutyList = []
-        for r in qcDutyCell:
-            qcDutyJob = ppsheet.cell(r.row, 3).value #col 3 is Job No.
-            qcDutyList.append(qcDutyJob)
+        for r in waitingQCRow:
+            if ppsheet.cell(r.row, qcNameCol).value == str(qc_id).title():
+                qcDutyJob = ppsheet.cell(r.row, 3).value #col 3 is Job No.
+                qcDutyList.append(qcDutyJob)
         return qcDutyList
 
     @staticmethod
