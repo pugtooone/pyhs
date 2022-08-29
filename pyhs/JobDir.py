@@ -3,8 +3,10 @@ from Doc import Doc
 from ProductionPlan import ProductionPlan
 from ShotList import ShotList
 from FileTransmitter import FileTransmitter
+from datetime import date
 from pathlib import Path
 import os
+import shutil
 import sys
 import pyperclip
 
@@ -149,19 +151,23 @@ class ToSend(JobDir):
         print('\nEmail Template Copied')
 
 class QC(JobDir):
-    def __init__(self):
-<<<<<<< HEAD
-        pass
-=======
-        directory = self.startup()
+    mainQCDir = Path.home() / 'Desktop/QCing'
+    mainQCDir.mkdir(exist_ok=True)
+
+    def __init__(self, directory):
         super().__init__(directory)
->>>>>>> 3fdd078bcdb02e340a52c872360a351a6c1fda81
+
+    # # __init__() without enduser downloading their own job
+    # def __init__(self):
+        # directory = self.startup()
+        # super().__init__(directory)
 
     def startup(self):
         """
         startup function run before calling super().__init__()
-        as jobDir is not exist yet
+        as jobDir does not exist yet
         """
+        self.jobName = ""
         self.qcDuty = QC.get_qc_duty()
         option = {}
         #print job option for qc to choose
@@ -187,6 +193,8 @@ class QC(JobDir):
         return FileTransmitter.TBQ / self.jobName
 
     def run(self):
+        self.update_job_status('QCing')
+        self.mv_to_QCing()
         self.check_img_spec()
         self.check_img_name()
         # self.write_summary()
@@ -194,6 +202,13 @@ class QC(JobDir):
 
     def check_download(self):
         return self.prodPlanObj.check_download()
+
+    def mv_to_QCing(self):
+        dateStr = date.today().strftime('%Y%m%d')
+        newjobDir = self.jobDir.parent / f'{dateStr} {self.jobDir.name}'
+        shutil.move(self.jobDir, newjobDir)
+        self.jobDir = newjobDir
+        shutil.move(self.jobDir, QC.mainQCDir)
 
     @staticmethod
     def get_qc_duty():
@@ -205,9 +220,12 @@ class QC(JobDir):
         return qcDutyList
 
     @staticmethod
-    def download_job(vendor, jobName):
+    def download_job(vendor, job):
+        """
+        static method to download the jobDir (which does not exist on the end user's os yet)
+        """
         if vendor == 'CutOut' or vendor == 'Schnell':
-            FileTransmitter(vendor).download_ftp_job(jobName)
+            FileTransmitter(vendor, job).download_ftp_job()
         elif vendor == 'Dresma':
             pass
         elif vendor == 'Adnet':
