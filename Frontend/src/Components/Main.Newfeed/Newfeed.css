@@ -17,7 +17,7 @@ span{
     height:36px;
     margin-top: 1vh;
     margin-bottom: 1vh;
-    background: radial-gradient(253.42% 1244.62% at 122.49% 0%, #2A2B2E 0%, #323336 11.37%, #121116 98.57%);
+    background: rgb(50, 51, 53);
     border-radius: 7px;
     box-shadow: 4px 8px 12px #00000034;
     overflow:hidden;
@@ -30,7 +30,7 @@ span{
     height:36px;
     margin-top: 1vh;
     margin-bottom: 1vh;
-    background: radial-gradient(253.42% 1244.62% at 122.49% 0%, #2A2B2E 0%, #323336 11.37%, #121116 98.57%);
+    background: rgb(50, 51, 53);
     border-radius: 7px;
     box-shadow: 4px 8px 12px #00000034;
     overflow:hidden;

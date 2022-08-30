@@ -1,0 +1,38 @@
+:root{
+    --fontcolor:rgba(255,255,255,1);
+    --border:7px;
+}
+
+.Container{
+    border-radius: var(--border);
+    background: #8e7cc3;
+    width:28%;
+    height:100%;
+    margin: 1rem;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    box-shadow: 4px 8px 12px #00000034;
+    background: rgb(50, 51, 53);
+}
+
+.Status{
+    color:white;
+}
+
+.NumberContainer{
+    background: rgb(255, 255, 255);
+    border-radius: 50%;
+    height:30px;
+    width:30px;
+    padding:5px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Status >div{
+    border-radius: var(--border);
+    padding:15px;
+}
