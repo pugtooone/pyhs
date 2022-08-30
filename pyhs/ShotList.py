@@ -14,13 +14,20 @@ class ShotList:
             with resources.open_text('Resources', 'BrandShotList.json') as ShotListJSON:
                 self.shotListName = json.load(ShotListJSON)[brand]
                 self.brandShotList = ShotList.gc.open(self.shotListName)
-                self.qcTab = self.brandShotList.worksheet('For QC')
         except KeyError:
             #return None for brand without shotlist permission
             print(f'No Shotlist data for {brand}')
+            self.brandShotList = None
             return None
 
     def fill_qc_tab(self, imgNum, imgNameList):
+        if self.brandShotList == None:
+            return False
+        try:
+            self.qcTab = self.brandShotList.worksheet('For QC')
+        except AttributeError:
+            print(f'No QC tab exist')
+            return False
         self.qcTab.batch_clear(['A2:A'])
         self.qcTabRange = 'A2:A' + imgNum
 
