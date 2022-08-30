@@ -36,7 +36,7 @@ function MainPage() {
             </div>
             <div className="FeedsContainer">
                 <div className="Type">
-                    <div style={{color:'white'}}>Send<span className='break'> </span></div>
+                    <div style={{color:'white'}}>Send<span className='break'/></div>
                     <div style={{color:'white'}}>QC</div>
                 </div>
                 <div className="SendContainer">
