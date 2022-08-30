@@ -159,14 +159,28 @@ class ToSend(JobDir):
     def fill_prod_plan(self):
         return self.prodPlanObj.fill_prod_plan(self.get_product_count(), self.get_cat_img_count())
 
+    def mv_to_SENT(self):
+        pass
+
     def write_email(self):
-        self.imgCount = self.get_img_count()
-        self.docItems = self.get_doc_items()
-        if self.amendJobName:
-            self.email = f'Hi,\n\nPlease note that {self.amendJobName} is being uploaded to the server, including {self.imgCount} images along with {self.docItems}. Let me know if there is any question. Thanks!\n\n'
+        imgCount = self.get_img_count()
+        docItems = self.get_doc_items()
+        vendor = self.get_vendor()
+
+        #internal function to contruct email template
+        def _email_template(vendor, job_name, img_count, doc_items):
+            if vendor == 'Dresma':
+                email = f'Hi,\n\nPlease note that {job_name} is being uploaded through the following link:\n\n\n\n including {img_count} images along with {doc_items}. Let me know if there is any question. Thanks!\n\n'
+            else:
+                email = f'Hi,\n\nPlease note that {job_name} is being uploaded to the server, including {img_count} images along with {doc_items}. Let me know if there is any question. Thanks!\n\n'
+            return email
+
+        #contruct email and check if it is amendment
+        if hasattr(ToSend, 'self.amendJobName'):
+            email = _email_template(vendor, self.amendJobName, imgCount, docItems)
         else:
-            self.email = f'Hi,\n\nPlease note that {self.jobName} is being uploaded to the server, including {self.imgCount} images along with {self.docItems}. Let me know if there is any question. Thanks!\n\n'
-        pyperclip.copy(self.email)
+            email =  _email_template(vendor, self.jobName, imgCount, docItems)
+        pyperclip.copy(email)
         print('\nEmail Template Copied')
 
 class QC(JobDir):
