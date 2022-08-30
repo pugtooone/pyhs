@@ -13,8 +13,8 @@ function MainPage() {
                     {jobname:"Kipling",date:"13/5",urgent:false}
                     ];
 
-    
-    
+    // style
+    const active = []
 
 
     //useState Events
