@@ -123,10 +123,11 @@ class Img:
 
     def get_product_count(self, brand):
         try:
-            if self.get_product_list(brand) != None:
-                self.prodCount = len(self.get_product_list(brand).keys())
+            if self.get_product_list(brand) == None:
+                self.prodCount = 'NA'
+            self.prodCount = len(self.get_product_list(brand).keys())
         except WrongNamingError:
-            return 'NA'
+            self.prodCount = 'NA'
         finally:
             return self.prodCount
 
