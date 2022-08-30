@@ -26,8 +26,13 @@ class JobDir:
         self.jobName = directory.name
         self.imgDirObj = Img(self.jobDir)
         self.docDirObj = Doc(self.jobDir)
-        self.prodPlanObj = ProductionPlan(self.jobName)
+        # self.prodPlanObj = ProductionPlan(self.jobName)
         self.shotListObj = ShotList(self.get_brand())
+
+    #set property as amendment job will alter self.jobName and affects the original cell to be found
+    @property
+    def prodPlanObj(self):
+        return ProductionPlan(self.jobName)
 
     #menu display for CLI (not for gui)
     def display(self):
@@ -112,21 +117,32 @@ class JobDir:
 class ToSend(JobDir):
     def __init__(self, directory):
         super().__init__(directory)
+        if 'Amendment' in self.jobName:
+            self.amendJobName = self.jobName
+            self.jobName = self.jobName.split('_')[0]
         self._check_dir_structure(directory)
-        
+
     @staticmethod
     def get_today_out_job():
         return ProductionPlan.get_today_out_job()
 
     def run(self):
-        self.check_img_spec()
-        self.check_img_name()
-        self.display()
-        self.fill_qc_tab()
-        self.fill_prod_plan()
-        self.update_job_status('Retouching')
-        self.write_email()
-        self.write_summary()
+        if 'Amendment' in self.jobName:
+            self.check_img_spec()
+            self.check_img_name()
+            self.display()
+            self.fill_qc_tab()
+            self.update_job_status('Amending')
+            self.write_summary()
+        else:
+            self.check_img_spec()
+            self.check_img_name()
+            self.display()
+            self.fill_qc_tab()
+            self.fill_prod_plan()
+            self.update_job_status('Retouching')
+            self.write_email()
+            self.write_summary()
 
     def _check_dir_structure(self, directory):
         jobDirls = os.listdir(directory)
@@ -146,7 +162,10 @@ class ToSend(JobDir):
     def write_email(self):
         self.imgCount = self.get_img_count()
         self.docItems = self.get_doc_items()
-        self.email = f'Hi!\n\nPlease note that {self.jobName} is being uploaded to the server, including {self.imgCount} images along with {self.docItems}. Let me know if there is any question. Thanks!\n\n'
+        if self.amendJobName:
+            self.email = f'Hi,\n\nPlease note that {self.amendJobName} is being uploaded to the server, including {self.imgCount} images along with {self.docItems}. Let me know if there is any question. Thanks!\n\n'
+        else:
+            self.email = f'Hi,\n\nPlease note that {self.jobName} is being uploaded to the server, including {self.imgCount} images along with {self.docItems}. Let me know if there is any question. Thanks!\n\n'
         pyperclip.copy(self.email)
         print('\nEmail Template Copied')
 
