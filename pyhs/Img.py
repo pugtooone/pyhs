@@ -50,7 +50,6 @@ class Img:
         try:
             return brandJson[brand][spec]
         except KeyError:
-            print(f'No brand data for {brand}')
             raise NoBrandDataError(brand)
 
     def check_img_spec(self, brand):
@@ -83,7 +82,9 @@ class Img:
 
         for imgPath in self.imgPathList:
             img = imgPath.name
-            if not corName.fullmatch(img.lower()):
+            img = img.replace('comp', 'COMP')
+            img = img.replace('insert', 'INSERT')
+            if not corName.fullmatch(img):
                 checkDir = imgPath.parent / 'Check Required'
                 checkDir.mkdir(exist_ok=True)
                 try:
@@ -102,9 +103,11 @@ class Img:
         self.productShotList = {}
 
         for img in self.imgNameList:
+            img = img.replace('comp', 'COMP')
+            img = img.replace('insert', 'INSERT')
             #raise exception when file naming is wrong, or re.compile is wrong
             try:
-                product = corName.fullmatch(img.lower()).group(1)
+                product = corName.fullmatch(img).group(1)
             except AttributeError:
                 raise WrongNamingError(img)
 
@@ -124,10 +127,10 @@ class Img:
     def get_product_count(self, brand):
         try:
             if self.get_product_list(brand) == None:
-                self.prodCount = 'NA'
+                self.prodCount = 'NA (No Brand Data)'
             self.prodCount = len(self.get_product_list(brand).keys())
         except WrongNamingError:
-            self.prodCount = 'NA'
+            self.prodCount = 'NA (Wrong Naming)'
         finally:
             return self.prodCount
 
@@ -135,4 +138,5 @@ class WrongNamingError(Exception):
     pass
 
 class NoBrandDataError(Exception):
-    pass
+    def __init__(self, brand):
+        super().__init__(f'No brand data for {brand}')
