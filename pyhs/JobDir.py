@@ -13,9 +13,13 @@ import pyperclip
 class JobDir:
     #class attributes
     #server client folders as brand list
-    brandBaseDir = Path('/Volumes/Studio/CLIENTS/')
+    try:
+        brandBaseDir = Path('/Volumes/Studio/CLIENTS/')
+    except FileNotFoundError:
+        print('Server is not connected')
+        sys.exit(1)
     brandBase = os.listdir(brandBaseDir)
-    brandBase.extend(['OnTheList', 'MBG', 'Agnes b'])
+    brandBase.extend(['OnTheList', 'MBG', 'Agnes b', 'Epic Group'])
 
     def __init__(self, directory):
         """
@@ -26,22 +30,29 @@ class JobDir:
         self.jobName = directory.name
         self.imgDirObj = Img(self.jobDir)
         self.docDirObj = Doc(self.jobDir)
-        # self.prodPlanObj = ProductionPlan(self.jobName)
+        self._prodPlanObj = ProductionPlan(self.jobName)
         self.shotListObj = ShotList(self.get_brand())
 
     #set property as amendment job will alter self.jobName and affects the original cell to be found
     @property
     def prodPlanObj(self):
-        return ProductionPlan(self.jobName)
+        return self._prodPlanObj
+
+    @prodPlanObj.setter
+    def set_prodPlanObj(self, jobName):
+        self._prodPlanObj = ProductionPlan(jobName)
+        return self._prodPlanObj
 
     #menu display for CLI (not for gui)
-    def display(self):
+    def display(self, jobName):
         print(f"""====================================================================================================
     Job Directory Information
 ----------------------------------------------------------------------------------------------------
-    Job: {self.jobName}
+    Job: {jobName}
     No. of Products: {self.get_product_count()}
     No. of Images: {self.get_img_count()}
+
+    Vendor: {self.get_vendor()}
 ====================================================================================================
                 """)
 
@@ -74,12 +85,12 @@ class JobDir:
     def check_img_name(self):
         return self.imgDirObj.check_img_name(self.get_brand())
     
-    def write_summary(self):
+    def write_summary(self, jobName):
         self.productList = self.get_product_list()
         self.prodCount = self.get_product_count()
 
-        with open(self.jobDir / str(self.jobName + ' Summary'), 'a') as sumFile:
-            sumFile.write('%s Summary\n\nNo. of products: %s\n' % (self.jobName, self.prodCount))
+        with open(self.jobDir / str(jobName + ' Summary'), 'a') as sumFile:
+            sumFile.write('%s Summary\n\nNo. of products: %s\n' % (jobName, self.prodCount))
             if self.productList != None:
                 for key, value in self.productList.items():
                     sumFile.write('''\n%s:
@@ -115,6 +126,9 @@ class JobDir:
 
 
 class ToSend(JobDir):
+    sentFolder = Path.home() / 'Desktop/SENT'
+    sentFolder.mkdir(exist_ok=True)
+
     def __init__(self, directory):
         super().__init__(directory)
         if 'Amendment' in self.jobName:
@@ -127,22 +141,25 @@ class ToSend(JobDir):
         return ProductionPlan.get_today_out_job()
 
     def run(self):
-        if 'Amendment' in self.jobName:
+        if hasattr(self, 'amendJobName'):
             self.check_img_spec()
             self.check_img_name()
-            self.display()
+            self.display(self.amendJobName)
             self.fill_qc_tab()
             self.update_job_status('Amending')
-            self.write_summary()
+            self.write_email()
+            # self.write_summary(self.amendJobName)
+            self.mv_to_SENT()
         else:
             self.check_img_spec()
             self.check_img_name()
-            self.display()
+            self.display(self.jobName)
             self.fill_qc_tab()
             self.fill_prod_plan()
             self.update_job_status('Retouching')
             self.write_email()
-            self.write_summary()
+            # self.write_summary(self.jobName)
+            self.mv_to_SENT()
 
     def _check_dir_structure(self, directory):
         jobDirls = os.listdir(directory)
@@ -160,7 +177,7 @@ class ToSend(JobDir):
         return self.prodPlanObj.fill_prod_plan(self.get_product_count(), self.get_cat_img_count())
 
     def mv_to_SENT(self):
-        pass
+        shutil.move(self.jobDir, ToSend.sentFolder)
 
     def write_email(self):
         imgCount = self.get_img_count()
@@ -176,12 +193,13 @@ class ToSend(JobDir):
             return email
 
         #contruct email and check if it is amendment
-        if hasattr(ToSend, 'self.amendJobName'):
+        if hasattr(self, 'amendJobName'):
             email = _email_template(vendor, self.amendJobName, imgCount, docItems)
+            print(f'\n{self.amendJobName} Email Template Copied')
         else:
             email =  _email_template(vendor, self.jobName, imgCount, docItems)
+            print(f'\n{self.jobName} Email Template Copied')
         pyperclip.copy(email)
-        print('\nEmail Template Copied')
 
 class QC(JobDir):
     mainQCDir = Path.home() / 'Desktop/QCing'
@@ -216,7 +234,7 @@ class QC(JobDir):
                 print('Invalid input')
                 continue
 
-        self.prodPlanObj = ProductionPlan(self.jobName)
+        self._prodPlanObj = ProductionPlan(self.jobName)
         if self.check_download():
             print('Job is already downloaded')
             sys.exit()
@@ -227,11 +245,11 @@ class QC(JobDir):
 
     def run(self):
         self.update_job_status('QCing')
-        self.mv_to_QCing()
         self.check_img_spec()
         self.check_img_name()
         # self.write_summary()
-        self.display()
+        self.display(self.jobName)
+        self.mv_to_QCing()
 
     def check_download(self):
         return self.prodPlanObj.check_download()
