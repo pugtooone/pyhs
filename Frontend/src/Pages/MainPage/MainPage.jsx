@@ -30,9 +30,9 @@ function MainPage() {
     <div className="MainPage">
         <div className="Hero">
             <div className="StatusboxContainer">
-            <Statusbox color={{background:'#000000'}}>Waiting QC</Statusbox>
-            <Statusbox color={{background:'#f00f00'}}>Retouching</Statusbox>
-            <Statusbox color={{background:'#432343'}}>Amending</Statusbox>
+            <Statusbox background={{background:'#000000'}}>Waiting QC</Statusbox>
+            <Statusbox background={{background:'#f00f00'}}>Retouching</Statusbox>
+            <Statusbox background={{background:'#432343'}}>Amending</Statusbox>
             </div>
             <div className="FeedsContainer">
                 <div className="Type">
