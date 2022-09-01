@@ -13,7 +13,7 @@ class Doc:
         return self.docList
 
     # globbing pattern for counting the documents, which is universal to all instances: {'pattern to search for': 'document'}
-    docPattern = {'*Post-production*': 'post-production guideline', '*Shoot Brief*': 'shoot brief', '*Retouch Note*': 'retouch note', '*Swatch*': 'swatches', '*Overlay*': 'overlay', '*Feedback*': 'feedback.pdf', '*ref*': 'reference images'}
+    docPattern = {'*Post-production*': 'post-production guideline', '*Shoot Brief*': 'shoot brief', '*Retouch Note*': 'retouch note', 'Swatches': 'swatches', 'Overlay': 'overlay', 'feedback*': 'feedback document', 'ref': 'reference images'}
 
     def get_doc_items(self):
         """
