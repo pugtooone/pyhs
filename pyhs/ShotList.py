@@ -18,7 +18,7 @@ class ShotList:
             #return None for brand without shotlist permission
             print(f'No Shotlist data for {brand}')
             self.brandShotList = None
-            return None
+            return self.brandShotList
 
     def fill_qc_tab(self, imgNum, imgNameList):
         if self.brandShotList == None:
