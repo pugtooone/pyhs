@@ -15,6 +15,9 @@ class Doc:
     # globbing pattern for counting the documents, which is universal to all instances: {'pattern to search for': 'document'}
     docPattern = {'*Post-production*': 'post-production guideline', '*Shoot Brief*': 'shoot brief', '*Retouch Note*': 'retouch note', 'Swatches': 'swatches', 'Overlays': 'overlays', 'feedback*': 'feedback document', 'ref': 'reference images'}
 
+    def aloha(self):
+	hi
+
     def get_doc_items(self):
         """
         return a string of document items for email usage

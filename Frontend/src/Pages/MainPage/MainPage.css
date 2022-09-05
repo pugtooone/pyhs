@@ -48,16 +48,39 @@
     display:flex;
     flex-direction: column;
     align-items: center;
+    color:white;
+    width:50%;
+    overflow:hidden;
   }
 
-  .break{
-    border: 0.4px solid #FFFFFF;
+
+  .QCState{
+    border: 0.5px solid #FFFFFF;
     height:0;
-    width:120%;
+    margin-top:2%;
+    width:50%; 
+    display:block;
+    position: relative;
+    left:0px;
+    transition: left 0.3s;
+  }
+
+
+  .notQCState{
+    border: 0.5px solid #FFFFFF;
+    height:0;
+    margin-top:2%;
+    width:50%; 
+    display:block;
+    position: relative;
+    left:50%;
+    transition: left 0.3s;
     
   }
 
+
   .SendContainer{
+    
     display:flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -67,8 +90,22 @@
     padding:15px 0px;
     align-items: center;
     
+    
   }
   
   ::-webkit-scrollbar{
     width:2px;
   }
+
+
+@keyframes fadein{
+  0%{position:relative;
+     right:100px;
+     opacity:0;
+  }
+  100%{
+    position:relative;
+    right:0px;
+    opacity:1;
+  }
+}

@@ -15,7 +15,7 @@ function Statusbox(props){
     return (
         <div className='Container' onClick={numcheck}>
             <div className='Status'>
-                <div style={props.color}>{props.children}</div>
+                <div style={props.background}><p>{props.children}</p></div>
             </div>
             <div className="NumberContainer">
                 {number}
