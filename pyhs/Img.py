@@ -84,7 +84,7 @@ class Img:
             img = imgPath.name
             img = img.replace('comp', 'COMP')
             img = img.replace('insert', 'INSERT')
-            if not corName.fullmatch(img):
+            if corName.fullmatch(img) == None:
                 checkDir = imgPath.parent / 'Check Required'
                 checkDir.mkdir(exist_ok=True)
                 try:
@@ -106,6 +106,7 @@ class Img:
             img = img.replace('comp', 'COMP')
             img = img.replace('insert', 'INSERT')
             #raise exception when file naming is wrong, or re.compile is wrong
+            #need fix since one wrong name will make all wrong
             try:
                 product = corName.fullmatch(img).group(1)
             except AttributeError:
