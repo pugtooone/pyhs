@@ -30,18 +30,12 @@ class JobDir:
         self.jobName = directory.name
         self.imgDirObj = Img(self.jobDir)
         self.docDirObj = Doc(self.jobDir)
-        self._prodPlanObj = ProductionPlan(self.jobName)
         self.shotListObj = ShotList(self.get_brand())
 
     #set property as amendment job will alter self.jobName and affects the original cell to be found
     @property
     def prodPlanObj(self):
-        return self._prodPlanObj
-
-    @prodPlanObj.setter
-    def set_prodPlanObj(self, jobName):
-        self._prodPlanObj = ProductionPlan(jobName)
-        return self._prodPlanObj
+        return ProductionPlan(self.jobName)
 
     #menu display for CLI (not for gui)
     def display(self, jobName):
