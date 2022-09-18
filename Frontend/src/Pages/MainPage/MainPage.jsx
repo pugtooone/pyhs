@@ -43,7 +43,7 @@ function MainPage() {
                         QC
                     </div>
                 </div>
-                <span className={qctype?'QCState':'notQCState'}/>
+                <span className={qctype?'notQCState':'QCState'}/>
                 <div className="SendContainer">
                     {qctype?qcjoblist.map((item,index)=><Newfeed 
                                             style={{animation:'fadein',animationDuration:'1s',animationIterationCount:'1'}}
