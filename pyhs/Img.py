@@ -1,5 +1,7 @@
 from PIL import Image
 from importlib import resources
+from glob import glob
+import sys
 import shutil
 import re
 import json
@@ -14,6 +16,11 @@ class Img:
         Parameter: Path obj of JobDir
         """
         self.imgDir = directory / 'Images'
+        if not self.imgDir.is_dir():
+            self.imgDir.mkdir()
+            stuffs = glob(f'{directory}/*')
+            for stuff in stuffs:
+                shutil.move(f'{stuff}', f'{self.imgDir}')
         self.imgListIter = self.imgDir.glob('**/*.tif') #Iterator for img
 
         self.imgPathList = []
@@ -57,19 +64,23 @@ class Img:
             Img.brandImgSpec = Img._access_brand_spec(brand, 'Spec')
         except NoBrandDataError:
             return None
-        # self.wrongSpecList = [] #change to dictionary with key as img, value as specs
+        self.wrongSpecList = [] #change to dictionary with key as img, value as specs
 
         for img in self.imgPathList:
             with Image.open(img) as imgObj:
                 for spec, value in Img.brandImgSpec.items():
                     if str(eval(f'imgObj.{spec}')) != value:
+                        print(f'{img.name} - {spec} is incorrect')
                         checkDir = img.parent / 'Check Required'
                         checkDir.mkdir(exist_ok=True)
                         try:
                             shutil.move(img, checkDir)
                         except shutil.Error:
                             pass
-                        # self.wrongSpecList.append(img)
+                        self.wrongSpecList.append(img)
+        if self.wrongSpecList != []:
+            print('Wrong file spec')
+            sys.exit(1)
 
     def check_img_name(self, brand):
         try:
@@ -78,13 +89,14 @@ class Img:
             return None
 
         corName = re.compile(r'{}'.format(Img.brandCorName))
-        # self.wrongNameList = []
+        self.wrongNameList = []
 
         for imgPath in self.imgPathList:
             img = imgPath.name
             img = img.replace('comp', 'COMP')
             img = img.replace('insert', 'INSERT')
             if corName.fullmatch(img) == None:
+                self.wrongNameList.append(img)
                 checkDir = imgPath.parent / 'Check Required'
                 checkDir.mkdir(exist_ok=True)
                 try:
@@ -92,6 +104,9 @@ class Img:
                 except shutil.Error:
                     pass
                 # self.wrongNameList.append(img)
+        if self.wrongNameList != []:
+            print('Wrong file naming')
+            sys.exit(1)
 
     def get_product_list(self, brand):
         try:
