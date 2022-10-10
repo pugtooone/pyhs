@@ -1,6 +1,5 @@
 from PIL import Image
 from importlib import resources
-from glob import glob
 import sys
 import shutil
 import re
@@ -16,11 +15,6 @@ class Img:
         Parameter: Path obj of JobDir
         """
         self.imgDir = directory / 'Images'
-        if not self.imgDir.is_dir():
-            self.imgDir.mkdir()
-            stuffs = glob(f'{directory}/*')
-            for stuff in stuffs:
-                shutil.move(f'{stuff}', f'{self.imgDir}')
         self.imgListIter = self.imgDir.glob('**/*.tif') #Iterator for img
 
         self.imgPathList = []
