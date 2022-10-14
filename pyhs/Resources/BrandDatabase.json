@@ -27,6 +27,16 @@
 		"Name": "([A-Z0-9]+_[0-9]{3})_([0-9])(|_COMP[0-9]+|_INSERT)\\.tif"
 	},
 
+	"AIWA":{
+		"Spec":{
+			"format": "TIFF",
+			"mode": "RGB",
+			"info[\"dpi\"]": "(300.0, 300.0)",
+			"getpixel((0, 0))": "(255, 255, 255)"
+		},
+		"Name": "([-A-Z0-9]+)_([^_]+)(|_COMP[0-9]+)\\.tif"
+	},
+
 	"Arena":{
 		"Spec":{
 			"format": "TIFF",
