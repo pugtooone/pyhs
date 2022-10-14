@@ -241,6 +241,7 @@ class QC(JobDir):
         self.update_job_status('QCing')
         self.check_img_spec()
         self.check_img_name()
+        self.fill_qc_tab()
         # self.write_summary()
         self.display(self.jobName)
         self.mv_to_QCing()
