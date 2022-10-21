@@ -19,7 +19,7 @@ class JobDir:
         print('Server is not connected')
         sys.exit(1)
     brandBase = os.listdir(brandBaseDir)
-    brandBase.extend(['OnTheList', 'MBG', 'Agnes b', 'Epic Group'])
+    brandBase.extend(['OnTheList', 'MBG', 'agnes b', 'Epic Group'])
 
     def __init__(self, directory):
         """
@@ -238,9 +238,9 @@ class QC(JobDir):
         return FileTransmitter.TBQ / self.jobName
 
     def run(self):
-        self.update_job_status('QCing')
         self.check_img_spec()
         self.check_img_name()
+        self.update_job_status('QCing')
         self.fill_qc_tab()
         # self.write_summary()
         self.display(self.jobName)

@@ -16,7 +16,7 @@
 		"Name": "([a-zA-Z0-9\\s]+)_[a-zA-Z0-9]+\\.tif"
 	},
 
-	"Agnes b":{
+	"agnes b":{
 		"Spec":{
 			"format": "TIFF",
 			"mode": "RGB",
