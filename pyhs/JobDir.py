@@ -19,7 +19,7 @@ class JobDir:
         print('Server is not connected')
         sys.exit(1)
     brandBase = os.listdir(brandBaseDir)
-    brandBase.extend(['OnTheList', 'MBG', 'agnes b', 'Epic Group'])
+    brandBase.extend(['OnTheList', 'MBG', 'agnes b', 'Epic Group', 'PORTS V'])
 
     def __init__(self, directory):
         """
@@ -157,12 +157,16 @@ class ToSend(JobDir):
 
     def _check_dir_structure(self, directory):
         jobDirls = os.listdir(directory)
-        if 'Images' in jobDirls and 'Documents' in jobDirls:
+        # ignore checking dir structure for certain brand (extendable)
+        if self.get_brand() == 'Fred Perry':
             pass
         else:
-            #could change to return boolean, then a restructure function
-            print('Error: wrong folder structure')
-            sys.exit(2)
+            if 'Images' in jobDirls and 'Documents' in jobDirls:
+                pass
+            else:
+                #could change to return boolean, then a restructure function
+                print('Error: wrong folder structure')
+                sys.exit(2)
 
     def check_img_spec(self):
         return self.imgDirObj.check_img_spec('ToSend')
@@ -276,3 +280,10 @@ class QC(JobDir):
             pass
         elif vendor == 'Adnet':
             pass
+
+class Submit(JobDir):
+    def __init__(self, directory):
+        super.__init__(directory)
+
+    def mv_to_submit(self):
+        pass
