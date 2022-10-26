@@ -1,5 +1,6 @@
 from PIL import Image
 from importlib import resources
+import os
 import sys
 import shutil
 import re
@@ -45,7 +46,9 @@ class Img:
         return imgNumDict
 
     @staticmethod
-    def _access_brand_spec(brand, spec):
+    def _access_brand_spec(brand, spec, model=None):
+        if model != None:
+            brand = f'{brand} Model'
         with resources.open_text('Resources', 'BrandDatabase.json') as brandJsonFile:
             brandJson = json.load(brandJsonFile)
         try:
@@ -54,10 +57,17 @@ class Img:
             raise NoBrandDataError(brand)
 
     def check_img_spec(self, brand):
-        try:
-            Img.brandImgSpec = Img._access_brand_spec(brand, 'Spec')
-        except NoBrandDataError:
-            return None
+        imgSubDir = os.listdir(self.imgDir)
+        if 'Model' in imgSubDir:
+            try:
+                Img.brandImgSpec = Img._access_brand_spec(brand, 'Spec', 'model')
+            except NoBrandDataError:
+                return None
+        else:
+            try:
+                Img.brandImgSpec = Img._access_brand_spec(brand, 'Spec')
+            except NoBrandDataError:
+                return None
         self.wrongSpecList = [] #change to dictionary with key as img, value as specs
 
         for img in self.imgPathList:
