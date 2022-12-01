@@ -2,7 +2,6 @@ from importlib import resources
 from pathlib import Path
 import json
 import gspread
-import os
 import sys
 
 class ServerQuery:
@@ -13,7 +12,6 @@ class ServerQuery:
     except FileNotFoundError:
         print('Server is not connected')
         sys.exit(1)
-    sessionBase = os.listdir(brandDir)
 
     @staticmethod
     def open_gsheet_center():
@@ -26,22 +24,22 @@ class ServerQuery:
         return wksheet
 
     @staticmethod
-    def get_prodlist():
+    def get_prodList(wksheet):
         """
         static method that does not need instantiation, for checking qc duty
         """
-        wksheet = ServerQuery.open_gsheet_center()
         prodCol = wksheet.find('Product').col
         prodList = wksheet.col_values(prodCol)
         return prodList
 
     def __init__(self):
-        ServerQuery.wksheet = ServerQuery.open_gsheet_center()
-        self.prodList = ServerQuery.get_prodlist()
+        self.wksheet = ServerQuery.open_gsheet_center()
+        self.prodList = ServerQuery.get_prodList(self.wksheet)
 
     def update_shot_status(self):
         for prod in self.prodList:
-            ServerQuery.brandDir.glob(f'**/{prod}*.CR2')
+            product = ServerQuery.brandDir.glob(f'**/{prod}')
+            #if product != '':
 
     def update_job_status(self, stage):
         self.jobStatusCell = self._find('Job Status')
