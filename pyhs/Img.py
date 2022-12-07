@@ -46,42 +46,66 @@ class Img:
         return imgNumDict
 
     @staticmethod
-    def _access_brand_spec(brand, spec, model=None):
-        if model != None:
-            brand = f'{brand} Model'
+    def _access_brand_spec(brand, spec, special=None):
+        if special != None:
+            brand = f'{brand} {special}'
         with resources.open_text('Resources', 'BrandDatabase.json') as brandJsonFile:
             brandJson = json.load(brandJsonFile)
         try:
             return brandJson[brand][spec]
         except KeyError:
-            raise NoBrandDataError(brand)
+            while True:
+                print('There is not brand data, proceed or not? Y/N')
+                ans = input()
+                if ans.lower() == 'y':
+                    return brandJson['Not Specified'][spec]
+                    break
+                elif ans.lower() == 'n':
+                    raise NoBrandDataError(brand)
+                    break
 
     def check_img_spec(self, brand):
+
+        #parse the subfolders to see if any special job
         imgSubDir = os.listdir(self.imgDir)
-        if 'Model' in imgSubDir:
-            try:
-                Img.brandImgSpec = Img._access_brand_spec(brand, 'Spec', 'model')
-            except NoBrandDataError:
-                return None
-        else:
-            try:
-                Img.brandImgSpec = Img._access_brand_spec(brand, 'Spec')
-            except NoBrandDataError:
-                return None
+        for i in range(len(imgSubDir)):
+            imgSubDir[i] = imgSubDir[i].title()
+        for job in ('Model', 'Macy'):
+            if job in imgSubDir:
+                try:
+                    Img.brandImgSpec = Img._access_brand_spec(brand, 'Spec', f'{job}')
+                except NoBrandDataError:
+                    return None
+            else:
+                try:
+                    Img.brandImgSpec = Img._access_brand_spec(brand, 'Spec')
+                except NoBrandDataError:
+                    return None
+
         self.wrongSpecList = [] #change to dictionary with key as img, value as specs
+
+        def mv_to_check():
+            checkDir = img.parent / 'Check Required'
+            checkDir.mkdir(exist_ok=True)
+            try:
+                shutil.move(img, checkDir)
+            except shutil.Error:
+                pass
+            self.wrongSpecList.append(img)
 
         for img in self.imgPathList:
             with Image.open(img) as imgObj:
+                corBG = int(2)
                 for spec, value in Img.brandImgSpec.items():
-                    if str(eval(f'imgObj.{spec}')) != value:
+                    if str(eval(f'imgObj.{spec}')) != value and 'getpixel' not in spec:
                         print(f'{img.name} - {spec} is incorrect')
-                        checkDir = img.parent / 'Check Required'
-                        checkDir.mkdir(exist_ok=True)
-                        try:
-                            shutil.move(img, checkDir)
-                        except shutil.Error:
-                            pass
-                        self.wrongSpecList.append(img)
+                        mv_to_check()
+                    if str(eval(f'imgObj.{spec}')) != value and 'getpixel' in spec:
+                        corBG -= 1
+                        if corBG == 0:
+                            print(f'{img.name} - BG colour is incorrect')
+                            mv_to_check()
+
         if self.wrongSpecList != []:
             print('Wrong file spec')
             sys.exit(1)
@@ -153,6 +177,14 @@ class Img:
             self.prodCount = 'NA (Wrong Naming)'
         finally:
             return self.prodCount
+
+    def export_jpg(self):
+        for img in self.imgPathList:
+            f, e = os.path.splitext(img)
+            outfile = f + '.jpg'
+
+            with Image.open(img) as imgObj:
+                imgObj.save(outfile)
 
 class WrongNamingError(Exception):
     pass
