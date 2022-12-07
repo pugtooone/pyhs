@@ -19,7 +19,7 @@ class JobDir:
         print('Server is not connected')
         sys.exit(1)
     brandBase = os.listdir(brandBaseDir)
-    brandBase.extend(['OnTheList', 'MBG', 'agnes b', 'Epic Group', 'PORTS V'])
+    brandBase.extend(['AIWA', 'OnTheList', 'MBG', 'agnes b', 'Agnes b', 'Epic Group', 'PORTS V'])
 
     def __init__(self, directory):
         """
@@ -184,10 +184,15 @@ class ToSend(JobDir):
 
         #internal function to contruct email template
         def _email_template(vendor, job_name, img_count, doc_items):
+            if doc_items == None:
+                doc_item_phrase = ''
+            elif len(doc_items) != 0:
+                doc_item_phrase = f' along with {doc_items}'
+
             if vendor == 'Dresma':
-                email = f'Hi,\n\nPlease note that {job_name} is being uploaded through the following link:\n\n\n\n including {img_count} images along with {doc_items}. Let me know if there is any question. Thanks!\n\n'
+                email = f'Hi,\n\nPlease note that {job_name} is being uploaded through the following link:\n\n\n\nincluding {img_count} images{doc_item_phrase}. Let me know if there is any question. Thanks!\n\n'
             else:
-                email = f'Hi,\n\nPlease note that {job_name} is being uploaded to the server, including {img_count} images along with {doc_items}. Let me know if there is any question. Thanks!\n\n'
+                email = f'Hi,\n\nPlease note that {job_name} is being uploaded to the server, including {img_count} images{doc_item_phrase}. Let me know if there is any question. Thanks!\n\n'
             return email
 
         #contruct email and check if it is amendment
