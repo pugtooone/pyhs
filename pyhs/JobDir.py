@@ -45,6 +45,7 @@ class JobDir:
     Job: {jobName}
     No. of Products: {self.get_product_count()}
     No. of Images: {self.get_img_count()}
+    No. of Comps: {self.get_comp_count()}
 
     Vendor: {self.get_vendor()}
 ====================================================================================================
@@ -63,6 +64,9 @@ class JobDir:
 
     def get_img_count(self):
         return self.imgDirObj.get_total_img_count()
+
+    def get_comp_count(self):
+        return self.imgDirObj.get_comp_count()
 
     def get_cat_img_count(self):
         return self.imgDirObj.get_cat_img_count()
@@ -172,7 +176,7 @@ class ToSend(JobDir):
         return self.imgDirObj.check_img_spec('ToSend')
 
     def fill_prod_plan(self):
-        return self.prodPlanObj.fill_prod_plan(self.get_product_count(), self.get_cat_img_count())
+        return self.prodPlanObj.fill_prod_plan(self.get_product_count(), self.get_cat_img_count(), self.get_comp_count())
 
     def mv_to_SENT(self):
         shutil.move(self.jobDir, ToSend.sentFolder)
