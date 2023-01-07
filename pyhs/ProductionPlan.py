@@ -61,7 +61,7 @@ class ProductionPlan:
             return True
         return False
 
-    def fill_prod_plan(self, prodCount, imgCatDict):
+    def fill_prod_plan(self, prodCount, imgCatDict, compCount):
 
         #fill product count
         prodNumCell = self._find('Total No. Product')
@@ -72,6 +72,10 @@ class ProductionPlan:
             keyCell = self._find(key)
             if value > 0:
                 ProductionPlan.ppsheet.update(keyCell.address, value)
+
+        #fill comp count
+        compNumCell = self._find('Comps')
+        ProductionPlan.ppsheet.update(compNumCell.address, compCount)
 
     def update_job_status(self, stage):
         self.jobStatusCell = self._find('Job Status')
