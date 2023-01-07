@@ -34,6 +34,13 @@ class Img:
         self.imgNum = len(self.get_img_list())
         return self.imgNum
 
+    def get_comp_count(self):
+        self.compCount = 0
+        for img in self.imgNameList:
+            if 'comp' in img.lower() or 'insert' in img.lower():
+                self.compCount += 1
+        return self.compCount
+
     def get_cat_img_count(self):
         imgNumDict = {}
         for cat in Img.imgCat:
@@ -53,16 +60,24 @@ class Img:
             brandJson = json.load(brandJsonFile)
         try:
             return brandJson[brand][spec]
-        except KeyError:
+        except KeyError: #raise exception if no brand data is found
             while True:
                 print('There is not brand data, proceed or not? Y/N')
                 ans = input()
                 if ans.lower() == 'y':
                     return brandJson['Not Specified'][spec]
-                    break
                 elif ans.lower() == 'n':
                     raise NoBrandDataError(brand)
-                    break
+
+    #internal function to mv the image with wrong attributes to "Check Required" folder
+    @staticmethod
+    def _mv_to_check(img):
+        checkDir = img.parent / 'Check Required'
+        checkDir.mkdir(exist_ok=True)
+        try:
+            shutil.move(img, checkDir)
+        except shutil.Error:
+            pass
 
     def check_img_spec(self, brand):
 
@@ -84,27 +99,21 @@ class Img:
 
         self.wrongSpecList = [] #change to dictionary with key as img, value as specs
 
-        def mv_to_check():
-            checkDir = img.parent / 'Check Required'
-            checkDir.mkdir(exist_ok=True)
-            try:
-                shutil.move(img, checkDir)
-            except shutil.Error:
-                pass
-            self.wrongSpecList.append(img)
-
         for img in self.imgPathList:
             with Image.open(img) as imgObj:
+                #check the bg colour at top left and bottom right
                 corBG = int(2)
                 for spec, value in Img.brandImgSpec.items():
                     if str(eval(f'imgObj.{spec}')) != value and 'getpixel' not in spec:
                         print(f'{img.name} - {spec} is incorrect')
-                        mv_to_check()
+                        Img._mv_to_check(img)
+                        self.wrongSpecList.append(img)
                     if str(eval(f'imgObj.{spec}')) != value and 'getpixel' in spec:
                         corBG -= 1
                         if corBG == 0:
                             print(f'{img.name} - BG colour is incorrect')
-                            mv_to_check()
+                            Img._mv_to_check(img)
+                            self.wrongSpecList.append(img)
 
         if self.wrongSpecList != []:
             print('Wrong file spec')
@@ -123,17 +132,13 @@ class Img:
             img = imgPath.name
             img = img.replace('comp', 'COMP')
             img = img.replace('insert', 'INSERT')
+
             if corName.fullmatch(img) == None:
+                Img._mv_to_check(img)
                 self.wrongNameList.append(img)
-                checkDir = imgPath.parent / 'Check Required'
-                checkDir.mkdir(exist_ok=True)
-                try:
-                    shutil.move(imgPath, checkDir)
-                except shutil.Error:
-                    pass
-                # self.wrongNameList.append(img)
+
         if self.wrongNameList != []:
-            print('Wrong file naming')
+            print(f'Wrong file naming for: {self.wrongNameList}')
             sys.exit(1)
 
     def get_product_list(self, brand):
@@ -180,8 +185,9 @@ class Img:
 
     def export_jpg(self):
         for img in self.imgPathList:
-            f, e = os.path.splitext(img)
-            outfile = f + '.jpg'
+            filename, extension = os.path.splitext(img)
+            extension = '.jpg'
+            outfile = filename + extension
 
             with Image.open(img) as imgObj:
                 imgObj.save(outfile)
